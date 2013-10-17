@@ -37,12 +37,18 @@ logo_location = [(WINDOWWIDTH-EXCITBIKE_LOGO_SIZE[0])/2,(WINDOWHEIGHT-EXCITBIKE_
 menu_options = ("Single Player", "Multi Player", "Level Builder")
 menu_options_index = 0
 selection = menu_options [menu_options_index]
-fontcount = 0
+
+
 pygame.init()
+
 pygame.font.init()
 fonts = pygame.font.get_fonts()
+fontcount = len(fonts)
+
 clock = pygame.time.Clock()
-print len(fonts)
+
+print fontcount
+
 while True:
     # event handling loop for quit events
     for event in pygame.event.get():
@@ -51,22 +57,26 @@ while True:
             sys.exit()
         elif event.type == KEYDOWN and event.key == K_DOWN:
             menu_options_index += 1
-            if menu_options_index > len(menu_options):
-                menu_options_index -= len(menu_options)
+            #Use this after font is picked
+            #if menu_options_index > len(menu_options):
+            #    menu_options_index -= len(menu_options)
         elif event.type == KEYDOWN and event.key == K_UP:
             menu_options_index -= 1
-            if menu_options_index < 0:
-                menu_options_index += len(menu_options)
+            #Use this after font is picked
+            #if menu_options_index < 0:
+            #    menu_options_index += len(menu_options)
                 
-    # fill the screen to draw from a blank state
+    # fill the screen with stuff to be updated
     DISPLAYSURF.fill(BGCOLOR)
     DISPLAYSURF.blit(excitbike_logo, logo_location)
-    fontcount += 1
-    if fontcount >= len(fonts):
-        fontcount -= len(fonts)
-    myfont = pygame.font.SysFont(fonts[fontcount], 15)
-    label = myfont.render("Some text!", 1, (255,255,0))
-    DISPLAYSURF.blit(label, (100, (fontcount*15)))
+    myfont = pygame.font.SysFont(fonts[menu_options_index], 15)
+    label0 = myfont.render(menu_options[0], 1, (255,255,0))
+    label1 = myfont.render(menu_options[1], 1, (255,255,0))
+    label2 = myfont.render(menu_options[2], 1, (255,255,0))
+    DISPLAYSURF.blit(label0, (100, 350))
+    DISPLAYSURF.blit(label1, (100, 375))
+    DISPLAYSURF.blit(label2, (100, 400))
+    # fill the screen to draw from a blank state
     pygame.display.update()
     print (fontcount)                
     clock.tick(30)
