@@ -29,7 +29,7 @@ excitbike_logo = pygame.image.load("../../assets/excitebike_logo.png").convert()
 # (width, height)
 EXCITBIKE_LOGO_SIZE = excitbike_logo.get_size()
 
-logo_location = [(WINDOWWIDTH-EXCITBIKE_LOGO_SIZE[0])/2,(WINDOWHEIGHT-EXCITBIKE_LOGO_SIZE[1])/2
+logo_location = [(WINDOWWIDTH-EXCITBIKE_LOGO_SIZE[0])/2,(WINDOWHEIGHT-EXCITBIKE_LOGO_SIZE[1])/4
                  ]
 
 # Menu logic variables
@@ -42,12 +42,8 @@ selection = menu_options [menu_options_index]
 pygame.init()
 
 pygame.font.init()
-fonts = pygame.font.get_fonts()
-fontcount = len(fonts)
 
 clock = pygame.time.Clock()
-
-print fontcount
 
 while True:
     # event handling loop for quit events
@@ -57,14 +53,12 @@ while True:
             sys.exit()
         elif event.type == KEYDOWN and event.key == K_DOWN:
             menu_options_index += 1
-            #Use this after font is picked
-            #if menu_options_index > len(menu_options):
-            #    menu_options_index -= len(menu_options)
+            if menu_options_index >= len(menu_options):
+                menu_options_index = 0
         elif event.type == KEYDOWN and event.key == K_UP:
-            menu_options_index -= 1
-            #Use this after font is picked
-            #if menu_options_index < 0:
-            #    menu_options_index += len(menu_options)
+            menu_options_index -= 1           
+            if menu_options_index < 0:
+                menu_options_index += len(menu_options)
                 
     # fill the screen with stuff to be updated
     
@@ -72,10 +66,10 @@ while True:
     DISPLAYSURF.blit(excitbike_logo, logo_location)
     myfont = pygame.font.Font("../../assets/Nintendo-NES-Font.ttf", 15)
     for i in range(len(menu_options)):
-            fontsurface = (myfont.render(menu_options[i], 1, (255,255,0)))
-            DISPLAYSURF.blit(fontsurface, (100, (350+i*25)))
+            fontsurface = (myfont.render(menu_options[i], 1, WHITE))
+            DISPLAYSURF.blit(fontsurface, (150, (250+i*25)))
 
     # fill the screen to draw from a blank state
+    print menu_options_index
     pygame.display.update()
-    print (fontcount)                
     clock.tick(30)
