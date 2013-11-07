@@ -30,11 +30,11 @@ class Runner(object):
 
             # Main Phase
             if current_state == "menu":
-                menu_screen.give_inputs
-                menu_screen.update
-                menu_selection = menu_screen.getselection()
-                if menu_selection <> None:
-                    current_state = menu_selection
+                ##menu_screen.give_inputs
+                ##menu_screen.update
+                ##menu_selection = menu_screen.getselection()
+                ##if menu_selection <> None:
+                    ##current_state = menu_selection
                 print "current state is menu"
 
             elif current_state == "game":
