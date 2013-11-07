@@ -2,104 +2,95 @@ import sys
 import pygame
 from pygame.locals import *
 
-# Screen Settings
-
-SCREEN_MAGNIFIER = 2
-WINDOWWIDTH = 256*SCREEN_MAGNIFIER
-WINDOWHEIGHT = 224*SCREEN_MAGNIFIER
-WIN_CENTERX = int(WINDOWWIDTH / 2)
-WIN_CENTERY = int(WINDOWHEIGHT / 2)
-
-FPS = 60
-
-DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-pygame.display.set_caption('Exciting Bike')
-
-# set up a bunch of color tuples
-
-LIGHTBLUE = (100, 176, 255)
-DARKBLUE  = ( 20,  18, 167)
-WHITE     = (255, 255, 255)
-BLACK     = (  0,   0,   0)
-RED       = (255,   0,   0)
-
-# set up Background and Logo
-
-BGCOLOR = DARKBLUE
-
-excitbike_logo = pygame.image.load("../../assets/excitebike_logo.png").convert()
-
-### (width, height)
-EXCITBIKE_LOGO_SIZE = excitbike_logo.get_size()
-
-logo_location = [(WINDOWWIDTH-EXCITBIKE_LOGO_SIZE[0])/2,(WINDOWHEIGHT-EXCITBIKE_LOGO_SIZE[1])/4
-                 ]
-
-# Menu logic variables
-
-menu_options = ["SINGLE PLAYER", "MULTI PLAYER", "LEVEL BUILDER"]
-menu_options_index = 0
-selection = menu_options [menu_options_index]
-blink_speed = 8
-blink_counter = 0
-blink_state = True
-blink_color = RED
-
-pygame.init()
-
-pygame.font.init()
-
-clock = pygame.time.Clock()
-
-while True:
-    # event handling loop for quit events / Inputs
-    ### to be replaced/modified later with a call to another class
-    for event in pygame.event.get():
-        if event.type == QUIT or event.type == KEYUP and event.key == K_ESCAPE:
-            pygame.quit()
-            sys.exit()
-        elif event.type == KEYDOWN and event.key == K_DOWN:
-            menu_options_index += 1
-            if menu_options_index >= len(menu_options):
-                menu_options_index = 0
-        elif event.type == KEYDOWN and event.key == K_UP:
-            menu_options_index -= 1
-            if menu_options_index < 0:
-                menu_options_index += len(menu_options)
-
-    # Logic Operations
 
 
-    ### Logic for blinking selection
+class MenuScreen(object):
+    def __init__(self):
 
-    blink_counter += 1
-    if blink_counter > blink_speed:
-        blink_state = not blink_state
-        blink_counter = 0
-    if blink_state == True:
-        blink_color = WHITE
-    else:
-        blink_color = RED
+        # Screen Settings
+        self.SCREEN_MAGNIFIER = 2
+        self.WINDOWWIDTH = 256*self.SCREEN_MAGNIFIER
+        self.WINDOWHEIGHT = 224*self.SCREEN_MAGNIFIER
+        self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
+        self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
 
-    # fill the screen with stuff to be updated
+        self.FPS = 60
 
-    ### Background and logo
+        self.DISPLAYSURF = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
+        pygame.display.set_caption('Exciting Bike')
 
-    DISPLAYSURF.fill(BGCOLOR)
-    DISPLAYSURF.blit(excitbike_logo, logo_location)
+        # set up a bunch of color tuples
+        self.LIGHTBLUE = (100, 176, 255)
+        self.DARKBLUE  = ( 20,  18, 167)
+        self.WHITE     = (255, 255, 255)
+        self.BLACK     = (  0,   0,   0)
+        self.RED       = (255,   0,   0)
 
-    ### Menu Options
+        # set up Background and Logo
 
-    myfont = pygame.font.Font("../../assets/Nintendo-NES-Font.ttf", 15)
-    for i in range(len(menu_options)):
-        if i == menu_options_index:
-            fontsurface = (myfont.render(menu_options[i], 1, blink_color))
-        else:
-            fontsurface = (myfont.render(menu_options[i], 1, WHITE))
-        DISPLAYSURF.blit(fontsurface, (150, (275+i*25)))
+        self.BGCOLOR = self.DARKBLUE
 
-    # Update Screen
+        self.excitbike_logo = pygame.image.load("assets/excitebike_logo.png").convert()
 
-    pygame.display.update()
+        ### (width, height)
+        self.EXCITBIKE_LOGO_SIZE = self.excitbike_logo.get_size()
 
-    clock.tick(30)
+        self.logo_location = [(self.WINDOWWIDTH-self.EXCITBIKE_LOGO_SIZE[0])/2,(self.WINDOWHEIGHT-self.EXCITBIKE_LOGO_SIZE[1])/4]
+
+        # Menu logic variables
+
+        self.menu_options = ["SINGLE PLAYER", "MULTI PLAYER", "LEVEL BUILDER"]
+        self.menu_options_index = 0
+        self.selection = self.menu_options [self.menu_options_index]
+        self.blink_speed = 8
+        self.blink_counter = 0
+        self.blink_state = True
+        self.blink_color = self.RED
+
+        pygame.init()
+
+        pygame.font.init()
+
+    def go_down(self):
+        self.menu_options_index += 1
+        if self.menu_options_index >= len(self.menu_options):
+            self.menu_options_index = 0
+
+    def go_up(self):
+        self.menu_options_index -= 1
+        if self.menu_options_index < 0:
+            self.menu_options_index += len(self.menu_options)
+
+    def update(self):
+            # Logic Operations
+
+
+            ### Logic for blinking selection
+
+            self.blink_counter += 1
+            if self.blink_counter > self.blink_speed:
+                self.blink_state = not self.blink_state
+                self.blink_counter = 0
+            if self.blink_state == True:
+                self.blink_color = self.WHITE
+            else:
+                self.blink_color = self.RED
+
+            # fill the screen with stuff to be updated
+
+            ### Background and logo
+
+            self.DISPLAYSURF.fill(self.BGCOLOR)
+            self.DISPLAYSURF.blit(self.excitbike_logo, self.logo_location)
+
+            ### Menu Options
+
+            self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
+            for i in range(len(self.menu_options)):
+                if i == self.menu_options_index:
+                    self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
+                else:
+                    self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.WHITE))
+                self.DISPLAYSURF.blit(self.fontsurface, (150, (275+i*25)))
+
+            # Update Screen
