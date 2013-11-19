@@ -37,3 +37,6 @@ nosetests.xml
 
 # Annoying Eclipse stuff
 .metadata
+
+# Annoying Mac OS stuff
+.DS_Store
