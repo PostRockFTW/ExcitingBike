@@ -4,9 +4,10 @@ from excitingbike.screens.menu_screen import MenuScreen
 from excitingbike.screens.main_menu_screen import MainMenuScreen
 from excitingbike.screens.option_menu_screen import OptionMenuScreen
 from excitingbike.screens.game_screen import GameScreen
-from excitingbike.controller.controller import Controller, KEY_UP, KEY_DOWN, KEY_LEFT,  KEY_RIGHT, KEY_A_BUTTON, KEY_B_BUTTON, KEY_START, KEY_SELECT, KEY_ESCAPE
+from excitingbike.controller.controller import Controller
 
 from pygame.locals import *
+from excitingbike.locals import *
 
 # Runs the main loop of the program
 class Runner(object):
@@ -24,8 +25,7 @@ class Runner(object):
 
         # Load Game State Instances
 
-        self.controller_Instance = Controller ()
-        current_inputs = self.controller_Instance.process_events
+        self.controller_Instance = Controller()
 
         self.main_Menu_Instance = MainMenuScreen()
         self.option_Menu_Instance = OptionMenuScreen()
