@@ -1,12 +1,14 @@
 import pygame
 
-KEY_UP    = 0
-KEY_DOWN  = 1
-KEY_LEFT  = 2
-KEY_RIGHT = 3
-BACK      = 4
-QUIT      = 5
-
+KEY_UP       = 0
+KEY_DOWN     = 1
+KEY_LEFT     = 2
+KEY_RIGHT    = 3
+KEY_A_BUTTON = 4
+KEY_B_BUTTON = 5
+KEY_START    = 6
+KEY_SELECT   = 7
+KEY_ESCAPE   = 8
 
 # Inputs to ExciteBike:
 
@@ -24,11 +26,21 @@ class Controller(object):
 
         self.control_modes = {
             "keyboard" : {
-                pygame.locals.K_UP    : KEY_UP,
-                pygame.locals.K_DOWN  : KEY_DOWN,
-                pygame.locals.K_LEFT  : KEY_LEFT,
-                pygame.locals.K_RIGHT : KEY_RIGHT,
-                pygame.locals.K_w : KEY_UP
+                pygame.locals.K_ESCAPE    : KEY_ESCAPE,
+                pygame.locals.K_UP        : KEY_UP,
+                pygame.locals.K_DOWN      : KEY_DOWN,
+                pygame.locals.K_LEFT      : KEY_LEFT,
+                pygame.locals.K_RIGHT     : KEY_RIGHT,
+                pygame.locals.K_z         : KEY_A_BUTTON,
+                pygame.locals.K_x         : KEY_B_BUTTON,
+                pygame.locals.K_RETURN    : KEY_START,
+                pygame.locals.K_RSHIFT    : KEY_SELECT,
+                pygame.locals.K_w         : KEY_UP,
+                pygame.locals.K_s         : KEY_DOWN,
+                pygame.locals.K_a         : KEY_LEFT,
+                pygame.locals.K_d         : KEY_RIGHT,
+                pygame.locals.K_SEMICOLON : KEY_A_BUTTON,
+                pygame.locals.K_QUOTE     : KEY_B_BUTTON
             },
             "joystick" : {
 

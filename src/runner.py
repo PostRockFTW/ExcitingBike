@@ -4,6 +4,8 @@ from excitingbike.screens.menu_screen import MenuScreen
 from excitingbike.screens.main_menu_screen import MainMenuScreen
 from excitingbike.screens.option_menu_screen import OptionMenuScreen
 from excitingbike.screens.game_screen import GameScreen
+from excitingbike.controller.controller import Controller, KEY_UP, KEY_DOWN, KEY_LEFT,  KEY_RIGHT, KEY_A_BUTTON, KEY_B_BUTTON, KEY_START, KEY_SELECT, KEY_ESCAPE
+
 from pygame.locals import *
 
 # Runs the main loop of the program
@@ -22,6 +24,9 @@ class Runner(object):
 
         # Load Game State Instances
 
+        self.controller_Instance = Controller ()
+        current_inputs = self.controller_Instance.process_events
+
         self.main_Menu_Instance = MainMenuScreen()
         self.option_Menu_Instance = OptionMenuScreen()
         self.game_Instance = GameScreen()
@@ -36,19 +41,21 @@ class Runner(object):
         while running:
 
             # Upkeep
-            for event in pygame.event.get():
-                if ((event.type == QUIT) or
-                    (event.type == KEYDOWN and event.key == K_ESCAPE)):
+            current_inputs = self.controller_Instance.process_events()
+
+            # Draw Phase
+            for event in current_inputs:
+                if event == KEY_ESCAPE:
                     running = False
-                elif event.type == KEYDOWN and event.key == K_DOWN:
+                elif event == KEY_DOWN:
                     self.current_state.go_down()
-                elif event.type == KEYDOWN and event.key == K_UP:
+                elif event == KEY_UP:
                     self.current_state.go_up()
-                elif event.type == KEYDOWN and event.key == K_RETURN:
+                elif event == KEY_A_BUTTON:
                     print self.current_state
                     self.current_state = self.menu_options_dictionary[self.current_state.selection]
-            # Draw Phase
-            ##inputs.update
+
+
 
             # Main Phase
             if isinstance(self.current_state, MenuScreen):
