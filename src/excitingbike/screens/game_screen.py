@@ -11,6 +11,6 @@ class GameScreen:
         self.DISPLAYSURF = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
         print("placeholder") # TODO remove this line & implement
 
-    def update(self):
+    def update(self,events,states):
         print("Updating game screen")
         self.DISPLAYSURF.fill((255,   0,   0))

@@ -25,13 +25,9 @@ class Runner(object):
 
         # Load Game State Instances
 
-        self.controller_Instance = Controller()
-
-        self.main_Menu_Instance = MainMenuScreen()
-        self.option_Menu_Instance = OptionMenuScreen()
-        self.game_Instance = GameScreen()
-        self.current_state = self.main_Menu_Instance
-        self.menu_options_dictionary = {"SINGLE PLAYER":self.game_Instance, "MULTI PLAYER":self.game_Instance, "LEVEL BUILDER":self.game_Instance, "OPTIONS":self.option_Menu_Instance}
+        self.controller_instance = Controller()
+        self.main_menu_instance = MainMenuScreen()
+        self.states = [self.main_menu_instance]
 
     def run(self):
 
@@ -41,27 +37,22 @@ class Runner(object):
         while running:
 
             # Upkeep
-            current_inputs = self.controller_Instance.process_events()
+            current_inputs = self.controller_instance.process_events()
 
             # Draw Phase
             for event in current_inputs:
                 if event == KEY_ESCAPE:
-                    running = False
-                elif event == KEY_DOWN:
-                    self.current_state.go_down()
-                elif event == KEY_UP:
-                    self.current_state.go_up()
-                elif event == KEY_A_BUTTON:
-                    print self.current_state
-                    self.current_state = self.menu_options_dictionary[self.current_state.selection]
+                    self.states.pop()
 
-
+            if len(self.states) <= 0:
+                running = False
+                continue
 
             # Main Phase
-            self.current_state.update()
+            self.states[-1].update(current_inputs,self.states)
 
             # Combat Phase
-            self.main_display.blit(self.current_state.DISPLAYSURF, (0,0))
+            self.main_display.blit(self.states[-1].DISPLAYSURF, (0,0))
             pygame.display.update()
             # TODO: Blit to main display
             # self.main_display.update()

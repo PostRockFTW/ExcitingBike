@@ -1,7 +1,8 @@
 import sys
 import pygame
-from pygame.locals import *
 
+from pygame.locals import *
+from excitingbike.locals import *
 
 
 class MenuScreen(object):
@@ -30,9 +31,10 @@ class MenuScreen(object):
 
         # Menu logic variables
 
+        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
         self.menu_options_index = 0
         self.menu_options = ["none"]
-        self.selection = self.menu_options [self.menu_options_index]
+        self.selection = self.menu_options[self.menu_options_index]
         self.blink_speed = 8
         self.blink_counter = 0
         self.blink_state = True
@@ -43,7 +45,7 @@ class MenuScreen(object):
         self.update_selection()
 
     def update_selection(self):
-        self.selection = self.menu_options [self.menu_options_index]
+        self.selection = self.menu_options[self.menu_options_index]
 
     def go_down(self):
         self.menu_options_index += 1
@@ -57,9 +59,16 @@ class MenuScreen(object):
             self.menu_options_index += len(self.menu_options)
         self.update_selection()
 
-    def update(self):
+    def update(self,events,states):
             # Logic Operations
 
+            for event in events:
+                if event == KEY_DOWN:
+                    self.go_down()
+                elif event == KEY_UP:
+                    self.go_up()
+                elif event == KEY_A_BUTTON:
+                    states.append(self.menu_options_dictionary[self.selection])
 
             ### Logic for blinking selection
 
@@ -80,7 +89,6 @@ class MenuScreen(object):
 
             ### Menu Options
 
-            self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
             for i in range(len(self.menu_options)):
                 if i == self.menu_options_index:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
