@@ -8,9 +8,7 @@ class GameScreen:
         self.WINDOWHEIGHT = 224*self.SCREEN_MAGNIFIER
         self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
         self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
-        self.DISPLAYSURF = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
-        print("placeholder") # TODO remove this line & implement
+        self.displaysurf = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
 
     def update(self,events,states):
-        print("Updating game screen")
-        self.DISPLAYSURF.fill((255,   0,   0))
+        self.displaysurf.fill((255,   0,   0))

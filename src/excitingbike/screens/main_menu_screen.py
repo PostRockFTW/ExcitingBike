@@ -50,8 +50,8 @@ class MainMenuScreen(MenuScreen):
 
             ### Background and logo
 
-            self.DISPLAYSURF.fill(self.BGCOLOR)
-            self.DISPLAYSURF.blit(self.excitbike_logo, self.logo_location)
+            self.displaysurf.fill(self.BGCOLOR)
+            self.displaysurf.blit(self.excitbike_logo, self.logo_location)
 
             ### Menu Options
 
@@ -61,6 +61,6 @@ class MainMenuScreen(MenuScreen):
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
                 else:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.WHITE))
-                self.DISPLAYSURF.blit(self.fontsurface, (150, (275+i*25)))
+                self.displaysurf.blit(self.fontsurface, (150, (275+i*25)))
 
             # Update Screen

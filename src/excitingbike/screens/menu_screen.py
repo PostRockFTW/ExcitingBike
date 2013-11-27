@@ -22,7 +22,7 @@ class MenuScreen(object):
         self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
         self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
 
-        self.DISPLAYSURF = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
+        self.displaysurf = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
         pygame.display.set_caption('Exciting Bike')
 
         # set up Background
@@ -85,7 +85,7 @@ class MenuScreen(object):
 
             ### Background and logo
 
-            self.DISPLAYSURF.fill(self.BGCOLOR)
+            self.displaysurf.fill(self.BGCOLOR)
 
             ### Menu Options
 
@@ -94,6 +94,6 @@ class MenuScreen(object):
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
                 else:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.WHITE))
-                self.DISPLAYSURF.blit(self.fontsurface, (150, (275+i*25)))
+                self.displaysurf.blit(self.fontsurface, (150, (275+i*25)))
 
             # Update Screen

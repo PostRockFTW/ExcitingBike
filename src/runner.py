@@ -52,10 +52,8 @@ class Runner(object):
             self.states[-1].update(current_inputs,self.states)
 
             # Combat Phase
-            self.main_display.blit(self.states[-1].DISPLAYSURF, (0,0))
+            self.main_display.blit(self.states[-1].displaysurf, (0,0))
             pygame.display.update()
-            # TODO: Blit to main display
-            # self.main_display.update()
 
             # End Step
             self.clock.tick(30)
