@@ -10,7 +10,7 @@ class OptionMenuScreen(MenuScreen):
         super(OptionMenuScreen,self).__init__()
 
         self.set_menu_options(("INPUT OPTIONS", "AUDIO OPTIONS", "VIDEO OPTIONS"))
-        self.menu_options_dictionary = {"SINGLE PLAYER":game_screen.GameScreen(), "MULTI PLAYER":game_screen.GameScreen(), "LEVEL BUILDER":game_screen.GameScreen()}
+        self.menu_options_dictionary = {"INPUT OPTIONS":game_screen.GameScreen, "AUDIO OPTIONS":game_screen.GameScreen, "VIDEO OPTIONS":game_screen.GameScreen}
 
 def update(self,events,states):
 

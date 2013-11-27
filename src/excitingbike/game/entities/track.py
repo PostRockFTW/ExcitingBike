@@ -46,3 +46,14 @@ class Track(object):
             self.track_hurdles[hurdleLetter][1],
             self.TRACK_HEIGHT
         ))
+
+    def getThisTrack(self, track_list):
+        def add(x,y): return x+y
+        self.track_surface_array = [self.getTrackHurdle(hurdle_surface) for hurdle_surface in track_list]
+        self.track_width = sum((surface.get_width() for surface in self.track_surface_array))
+        self.track_surface = pygame.Surface((self.track_width,self.TRACK_HEIGHT))
+        self.width_counter = 0
+        for surface in self.track_surface_array:
+            self.track_surface.blit(surface, (self.width_counter,0))
+            self.width_counter += surface.get_width ()
+        return self.track_surface

@@ -1,6 +1,16 @@
-class IntroScreen:
+import sys
+import pygame
+
+from screen import Screen
+from pygame.locals import *
+from excitingbike.locals import *
+
+class IntroScreen(Screen):
     def __init__(self):
-        print("placeholder") # TODO remove this line & implement
-        
+
+        super(IntroScreen,self).__init__()
+
+        print("Intro Screen Placeholder") # TODO remove this line & implement
+
     def update(self):
         print("Updating intro screen")

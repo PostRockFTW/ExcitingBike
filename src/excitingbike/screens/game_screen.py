@@ -1,12 +1,12 @@
 import sys
 import pygame
 from screen import Screen
+from ..game.entities.track import Track
 from pygame.locals import *
 from excitingbike.locals import *
 
 class GameScreen(Screen):
     def __init__(self):
-
         super(GameScreen,self).__init__()
 
         self.BGCOLOR = self.RED
@@ -62,6 +62,12 @@ class GameScreen(Screen):
 
         # fill the screen with stuff to be updated
 
+        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","END"]
+        self.current_track_list = ["START1","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
+        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","F","H","BLANK","BLANK","B","BLANK","BLANK","END"]
+        self.current_track = Track()
+        self.current_track_surface = self.current_track.getThisTrack(self.current_track_list)
+
         ### Place Holder Background
 
-        self.displaysurf.fill(self.BGCOLOR)
+        self.displaysurf.blit(self.current_track_surface, (0,0))

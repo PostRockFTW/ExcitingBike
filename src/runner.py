@@ -36,10 +36,12 @@ class Runner(object):
 
         while running:
 
-            # Upkeep
+            # Beginning Phase
+
+            # Draw Step
             current_inputs = self.controller_instance.process_events()
 
-            # Draw Phase
+            # Main Phase
             for event in current_inputs:
                 if event == KEY_ESCAPE:
                     self.states.pop()
@@ -48,10 +50,10 @@ class Runner(object):
                 running = False
                 continue
 
-            # Main Phase
+            # Combat Phase
             self.states[-1].update(current_inputs,self.states)
 
-            # Combat Phase
+            # Post Combat Phase
             self.main_display.blit(self.states[-1].displaysurf, (0,0))
             pygame.display.update()
 
