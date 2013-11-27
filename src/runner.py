@@ -58,16 +58,7 @@ class Runner(object):
 
 
             # Main Phase
-            if isinstance(self.current_state, MenuScreen):
-                self.current_state.update()
-                #menu_selection = menu_screen.getselection()
-                #if menu_selection <> None:
-                #    current_state = menu_selection
-
-
-            if isinstance(self.current_state, GameScreen):
-                self.current_state.update()
-                print "current state is game"
+            self.current_state.update()
 
             # Combat Phase
             self.main_display.blit(self.current_state.DISPLAYSURF, (0,0))
