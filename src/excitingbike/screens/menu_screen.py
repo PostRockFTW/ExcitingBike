@@ -1,33 +1,15 @@
 import sys
 import pygame
 
+from screen import Screen
 from pygame.locals import *
 from excitingbike.locals import *
 
 
-class MenuScreen(object):
+class MenuScreen(Screen):
     def __init__(self):
 
-        # set up a bunch of color tuples
-        self.LIGHTBLUE = (100, 176, 255)
-        self.DARKBLUE  = ( 20,  18, 167)
-        self.WHITE     = (255, 255, 255)
-        self.BLACK     = (  0,   0,   0)
-        self.RED       = (255,   0,   0)
-
-        # Screen Settings
-        self.SCREEN_MAGNIFIER = 2
-        self.WINDOWWIDTH = 256*self.SCREEN_MAGNIFIER
-        self.WINDOWHEIGHT = 224*self.SCREEN_MAGNIFIER
-        self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
-        self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
-
-        self.displaysurf = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
-        pygame.display.set_caption('Exciting Bike')
-
-        # set up Background
-
-        self.BGCOLOR = self.DARKBLUE
+        super(MenuScreen,self).__init__()
 
         # Menu logic variables
 
@@ -39,6 +21,8 @@ class MenuScreen(object):
         self.blink_counter = 0
         self.blink_state = True
         self.blink_color = self.RED
+
+    # Abilities all menus should have
 
     def set_menu_options(self,arg):
         self.menu_options=arg
@@ -60,7 +44,8 @@ class MenuScreen(object):
         self.update_selection()
 
     def update(self,events,states):
-            # Logic Operations
+
+            # Event Operations
 
             for event in events:
                 if event == KEY_DOWN:
@@ -70,7 +55,7 @@ class MenuScreen(object):
                 elif event == KEY_A_BUTTON:
                     states.append(self.menu_options_dictionary[self.selection])
 
-            ### Logic for blinking selection
+            # Logic for blinking selection
 
             self.blink_counter += 1
             if self.blink_counter > self.blink_speed:
@@ -95,5 +80,3 @@ class MenuScreen(object):
                 else:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.WHITE))
                 self.displaysurf.blit(self.fontsurface, (150, (275+i*25)))
-
-            # Update Screen
