@@ -41,7 +41,7 @@ class Controller(object):
         pass
 
     def process_events(self):
-        return [self.control_modes[self.control_mode][new_event.key] for new_event in pygame.event.get(pygame.locals.KEYDOWN)]
+        return [self.control_modes[self.control_mode][new_event.key] for new_event in pygame.event.get(pygame.locals.KEYDOWN) if new_event.key in self.control_modes[self.control_mode]]
 
 
 class KeyboardController(object):
