@@ -8,9 +8,9 @@ from excitingbike.locals import *
 class GameScreen(Screen):
     def __init__(self):
         super(GameScreen,self).__init__()
-
+        self.biker1xlocation = 0
+        self.biker1currentacceleration = 0
         self.BGCOLOR = self.RED
-
     # Abilities all games should have
 
     ## TODO Update Biker Location Modules
@@ -21,9 +21,11 @@ class GameScreen(Screen):
         print "Down Button Pressed"
 
     def place_holder_left(self):
+        self.biker1xlocation += 10
         print "Left Button Pressed"
 
     def place_holder_right(self):
+        self.biker1xlocation -= 10
         print "Right Button Pressed"
 
     def place_holder_a(self):
@@ -39,6 +41,8 @@ class GameScreen(Screen):
         print "Select Button Pressed"
 
     def update(self,events,states):
+
+        self.currentOffset = -self.biker1xlocation + (10*self.biker1currentacceleration)
 
         # Event Operations
 
@@ -62,12 +66,12 @@ class GameScreen(Screen):
 
         # fill the screen with stuff to be updated
 
-        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","END"]
-        self.current_track_list = ["START1","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
+        self.current_track_list = ["START1","BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
+        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
         #self.current_track_list = ["START1","BLANK","BLANK","BLANK","F","H","BLANK","BLANK","B","BLANK","BLANK","END"]
         self.current_track = Track()
         self.current_track_surface = self.current_track.getThisTrack(self.current_track_list)
 
         ### Place Holder Background
 
-        self.displaysurf.blit(self.current_track_surface, (0,0))
+        self.displaysurf.blit(self.current_track_surface, (self.currentOffset,0))
