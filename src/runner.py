@@ -58,6 +58,8 @@ class Runner(object):
             self.main_display.blit(self.states[-1].displaysurf, (0,0))
             pygame.display.update()
 
+            pygame.display.set_caption('Exciting Bike (FPS: %0.2f)' % self.clock.get_fps())
+
             # End Step
             self.clock.tick(30)
 
