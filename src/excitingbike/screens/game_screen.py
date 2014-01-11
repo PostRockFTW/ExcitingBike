@@ -11,7 +11,10 @@ class GameScreen(Screen):
         self.biker1xlocation = 0
         self.biker1currentacceleration = 0
         self.BGCOLOR = self.RED
-    # Abilities all games should have
+
+        self.current_track_list = ["START1","BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
+        self.current_track = Track()
+        self.current_track_surface = self.current_track.getThisTrack(self.current_track_list)
 
     ## TODO Update Biker Location Modules
     def place_holder_up(self):
@@ -65,12 +68,6 @@ class GameScreen(Screen):
                 self.place_holder_select()
 
         # fill the screen with stuff to be updated
-
-        self.current_track_list = ["START1","BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
-        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","END"]
-        #self.current_track_list = ["START1","BLANK","BLANK","BLANK","F","H","BLANK","BLANK","B","BLANK","BLANK","END"]
-        self.current_track = Track()
-        self.current_track_surface = self.current_track.getThisTrack(self.current_track_list)
 
         ### Place Holder Background
 
