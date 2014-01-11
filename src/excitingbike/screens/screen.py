@@ -16,14 +16,32 @@ class Screen(object):
 
         # Screen Settings
         self.SCREEN_MAGNIFIER = 2
-        self.WINDOWWIDTH = 256*self.SCREEN_MAGNIFIER
-        self.WINDOWHEIGHT = 224*self.SCREEN_MAGNIFIER
-        self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
-        self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
+        width = 256
+        height = 224
 
-        self.displaysurf = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
-        pygame.display.set_caption('Exciting Bike')
+        self.WINDOWWIDTH = width
+        self.WINDOWHEIGHT = height
+        self.setWidth(width)
+        self.setHeight(height)
+
+        self.initDisplaySurf()
 
         # set up Background
 
         self.BGCOLOR = self.DARKBLUE
+
+
+    def setWidth(self, width):
+        self.WINDOWWIDTH = self.SCREEN_MAGNIFIER * width
+        self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
+
+        self.initDisplaySurf()
+
+    def setHeight(self, height):
+        self.WINDOWHEIGHT = self.SCREEN_MAGNIFIER * height
+        self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
+
+        self.initDisplaySurf()
+
+    def initDisplaySurf(self):
+        self.displaysurf = pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
