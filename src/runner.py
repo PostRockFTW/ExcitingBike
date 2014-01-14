@@ -21,7 +21,7 @@ class Runner(object):
         self.screen_resolution = 2
         self.WINDOWWIDTH = 256*self.screen_resolution
         self.WINDOWHEIGHT = 224*self.screen_resolution
-        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT))
+        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT), pygame.RESIZABLE)
         pygame.key.set_repeat(50, 50)
 
         # Load Game State Instances
@@ -50,6 +50,7 @@ class Runner(object):
             for event in current_inputs:
                 if event == KEY_ESCAPE:
                     self.states.pop()
+                # TODO: If the event is a resize, call setWidth/setHeight on stuff
 
             if len(self.states) <= 0:
                 running = False
