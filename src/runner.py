@@ -39,6 +39,10 @@ class Runner(object):
 
             # Beginning Phase
 
+            for event in pygame.event.get(pygame.QUIT):
+                if event.type == pygame.QUIT:
+                    running = False
+
             # Draw Step
             current_inputs = self.controller_instance.process_events()
 
