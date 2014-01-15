@@ -48,6 +48,10 @@ class Runner(object):
                     self.states.pop()
                 # TODO: If the event is a resize, call setWidth/setHeight on stuff
 
+            if pygame.event.peek(pygame.QUIT):
+                running = False
+                continue
+
             if len(self.states) <= 0:
                 running = False
                 continue

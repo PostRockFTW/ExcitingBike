@@ -14,25 +14,24 @@ from excitingbike.locals import *
 class Controller(object):
 
     def __init__(self):
-        self.control_mode = "keyboard"
-
+        
         self.control_modes = {
             "keyboard" : {
-                pygame.locals.K_ESCAPE    : KEY_ESCAPE,
-                pygame.locals.K_UP        : KEY_UP,
-                pygame.locals.K_DOWN      : KEY_DOWN,
-                pygame.locals.K_LEFT      : KEY_LEFT,
-                pygame.locals.K_RIGHT     : KEY_RIGHT,
-                pygame.locals.K_z         : KEY_A_BUTTON,
-                pygame.locals.K_x         : KEY_B_BUTTON,
-                pygame.locals.K_RETURN    : KEY_START,
-                pygame.locals.K_RSHIFT    : KEY_SELECT,
-                pygame.locals.K_w         : KEY_UP,
-                pygame.locals.K_s         : KEY_DOWN,
-                pygame.locals.K_a         : KEY_LEFT,
-                pygame.locals.K_d         : KEY_RIGHT,
-                pygame.locals.K_SEMICOLON : KEY_A_BUTTON,
-                pygame.locals.K_QUOTE     : KEY_B_BUTTON
+                pygame.K_ESCAPE    : KEY_ESCAPE,
+                pygame.K_UP        : KEY_UP,
+                pygame.K_DOWN      : KEY_DOWN,
+                pygame.K_LEFT      : KEY_LEFT,
+                pygame.K_RIGHT     : KEY_RIGHT,
+                pygame.K_z         : KEY_A_BUTTON,
+                pygame.K_x         : KEY_B_BUTTON,
+                pygame.K_RETURN    : KEY_START,
+                pygame.K_RSHIFT    : KEY_SELECT,
+                pygame.K_w         : KEY_UP,
+                pygame.K_s         : KEY_DOWN,
+                pygame.K_a         : KEY_LEFT,
+                pygame.K_d         : KEY_RIGHT,
+                pygame.K_SEMICOLON : KEY_A_BUTTON,
+                pygame.K_QUOTE     : KEY_B_BUTTON
             },
             "joystick" : {
 
@@ -41,7 +40,12 @@ class Controller(object):
         pass
 
     def process_events(self):
-        return [self.control_modes[self.control_mode][new_event.key] for new_event in pygame.event.get(pygame.locals.KEYDOWN) if new_event.key in self.control_modes[self.control_mode]]
+        events = list()
+        for new_event in pygame.event.get(pygame.KEYDOWN):
+            if new_event.type == pygame.KEYDOWN:
+                if new_event.key in self.control_modes["keyboard"]:
+                    events.append(self.control_modes["keyboard"][new_event.key])
+        return events
 
 
 class KeyboardController(object):
