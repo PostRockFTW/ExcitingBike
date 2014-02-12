@@ -9,30 +9,31 @@ class GameScreen(Screen):
 
     def __init__(self):
         super(GameScreen,self).__init__()
-        self.biker1xlocation = 0
-        self.biker1currentacceleration = 0
         self.BGCOLOR = self.RED
 
-        self.current_track_list = ["BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK"]
-        self.current_track_surface = track.getThisTrack(self.current_track_list)
+        self.temporary_track_list = ["BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK"]
 
+        self.loadLevel(self.temporary_track_list)
+
+        self.currentOffset = 0
         self.bikerSpeed = 4
 
     def loadLevel(self, trackList):
 
-        self.track_surface_array = [self.getTrackHurdle(hurdle_surface) for hurdle_surface in track_list]
-        self.track_width = sum((surface.get_width() for surface in self.track_surface_array))
-        self.track_surface = pygame.Surface((self.track_width,self.TRACK_HEIGHT))
-        self.width_counter = 0
-        for surface in self.track_surface_array:
-            self.track_surface.blit(surface, (self.width_counter,0))
-            self.width_counter += surface.get_width ()
-        return self.track_surface
-        pass
+        track_hurdles = [track.getTrackHurdle(hurdle) for hurdle in trackList]
+        track_width = sum((surface.get_width() for surface in track_hurdles))
+        track_height = track_hurdles[0].get_height()
+        self.track_surface = pygame.Surface((track_width, track_height))
+
+        # For now, just blit the hurdles to the level once
+        xPos = 0
+        for surface in track_hurdles:
+            self.track_surface.blit(surface, (xPos, 0))
+            xPos += surface.get_width()
 
     def update(self, events, states):
 
-        self.currentOffset = -self.biker1xlocation + (10*self.biker1currentacceleration)
+        self.currentOffset -= self.bikerSpeed
 
         # Event Operations
 
@@ -61,4 +62,4 @@ class GameScreen(Screen):
 
         ### Place Holder Background
 
-        self.displaysurf.blit(self.current_track_surface, (self.currentOffset,0))
+        self.displaysurf.blit(self.track_surface, (self.currentOffset, 0))
