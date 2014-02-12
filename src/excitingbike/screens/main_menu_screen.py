@@ -4,6 +4,7 @@ import game_screen
 from menu_screen import MenuScreen
 from option_menu_screen import OptionMenuScreen
 from game_screen import GameScreen
+from level_builder_screen import LevelBuilderScreen
 from pygame.locals import *
 
 
@@ -14,7 +15,8 @@ class MainMenuScreen(MenuScreen):
 
         self.option_menu_instance = OptionMenuScreen()
         self.game_instance = GameScreen()
-        self.menu_options_dictionary = {"SINGLE PLAYER":self.game_instance, "MULTI PLAYER":self.game_instance, "LEVEL BUILDER":self.game_instance, "OPTIONS":self.option_menu_instance}
+        self.level_builder_instance = LevelBuilderScreen()
+        self.menu_options_dictionary = {"SINGLE PLAYER":self.game_instance, "MULTI PLAYER":self.game_instance, "LEVEL BUILDER": self.level_builder_instance, "OPTIONS":self.option_menu_instance}
 
         # set up Logo
 
