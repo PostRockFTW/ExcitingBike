@@ -1,4 +1,3 @@
-import sys
 import pygame
 
 from screen import Screen
