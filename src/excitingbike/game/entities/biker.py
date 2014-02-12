@@ -22,7 +22,7 @@ class Biker(pygame.sprite.Sprite):
         
     # When in air - leans forward if possible
     def right(self):
-        print("moving left")
+        print("moving right")
     
     # Accelerates biker if not at max speed
     def accelerate(self):

@@ -39,9 +39,9 @@ class Runner(object):
 
             # Beginning Phase
 
-            for event in pygame.event.get(pygame.QUIT):
-                if event.type == pygame.QUIT:
-                    running = False
+            if pygame.event.peek(pygame.QUIT):
+                running = False
+                continue
 
             # Draw Step
             current_inputs = self.controller_instance.process_events()
@@ -51,10 +51,6 @@ class Runner(object):
                 if event == KEY_ESCAPE:
                     self.states.pop()
                 # TODO: If the event is a resize, call setWidth/setHeight on stuff
-
-            if pygame.event.peek(pygame.QUIT):
-                running = False
-                continue
 
             if len(self.states) <= 0:
                 running = False
