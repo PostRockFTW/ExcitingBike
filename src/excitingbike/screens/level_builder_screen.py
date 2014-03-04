@@ -30,11 +30,11 @@ class LevelBuilderScreen(Screen):
         self.hurdle_options_index = 0
 
     ## TODO Update Biker Location Modules
-    def place_holder_up(self):
-        print "Up Button Pressed"
+    def options_index_left(self):
+        self.hurdle_options_index += 1
 
-    def place_holder_down(self):
-        print "Down Button Pressed"
+    def options_index_right(self):
+        self.hurdle_options_index -= 1
 
     def move_poistion_left(self):
         self.location_index += 16
@@ -62,9 +62,9 @@ class LevelBuilderScreen(Screen):
 
         for event in events:
             if event == KEY_DOWN:
-                self.place_holder_down()
+                self.options_index_left()
             elif event == KEY_UP:
-                self.place_holder_up()
+                self.options_index_right()
             elif event == KEY_LEFT:
                 self.move_poistion_left()
             elif event == KEY_RIGHT:
@@ -87,8 +87,11 @@ class LevelBuilderScreen(Screen):
         self.displaysurf.blit(self.current_track_surface, (self.location_index,self.WINDOWHEIGHT-self.options_surface_height-Track.TRACK_HEIGHT))
         self.displaysurf.blit(self.options_surface, (0,self.WINDOWHEIGHT-self.options_surface_height))
         self.displaysurf.blit(self.marker_surface, (self.SCREEN_MAGNIFIER*64,self.WINDOWHEIGHT-self.options_surface_height-8*self.SCREEN_MAGNIFIER))
+
         # Options Blit
         for i in range(len(self.hurdle_options)):
                 self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
-                self.displaysurf.blit(self.fontsurface, ((10*self.SCREEN_MAGNIFIER +i*10*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
+                self.displaysurf.blit(self.fontsurface, ((i*10*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
+        self.fontsurface = (self.myfont.render("^", 1, self.WHITE))
+        self.displaysurf.blit(self.fontsurface, ((self.hurdle_options_index*10*self.SCREEN_MAGNIFIER),210*self.SCREEN_MAGNIFIER))
 #        self.displaysurf.blit(self.surface, (x,y))
