@@ -21,7 +21,7 @@ class Runner(object):
         self.screen_resolution = 2
         self.WINDOWWIDTH = 256*self.screen_resolution
         self.WINDOWHEIGHT = 224*self.screen_resolution
-        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT), pygame.RESIZABLE)
+        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT))
         pygame.key.set_repeat(50, 50)
 
         # Load Game State Instances
@@ -39,25 +39,25 @@ class Runner(object):
 
             # Beginning Phase
 
-            if pygame.event.peek(pygame.QUIT):
-                running = False
-                continue
-
             # Draw Step
-            current_inputs = self.controller_instance.process_events()
+            events = self.controller_instance.process_events()
+
+            print events
 
             # Main Phase
-            for event in current_inputs:
-                if event == KEY_ESCAPE:
+            for event in events:
+                if event == EVENT_QUIT:
+                    running = False
+                    continue
+                elif event == KEY_ESCAPE:
                     self.states.pop()
-                # TODO: If the event is a resize, call setWidth/setHeight on stuff
 
             if len(self.states) <= 0:
                 running = False
                 continue
 
             # Combat Phase
-            self.states[-1].update(current_inputs,self.states)
+            self.states[-1].update(events, self.states)
 
             # Post Combat Phase
             self.main_display.blit(self.states[-1].displaysurf, (0,0))

@@ -14,8 +14,8 @@ from excitingbike.locals import *
 class Controller(object):
 
     def __init__(self):
-        
-        self.control_modes = {
+
+        self.default_controls = {
             "keyboard" : {
                 pygame.K_ESCAPE    : KEY_ESCAPE,
                 pygame.K_UP        : KEY_UP,
@@ -37,14 +37,35 @@ class Controller(object):
 
             }
         }
-        pass
+        self.custom_controls = {
+            "keyboard": {
+
+            },
+            "joystick": {
+
+            }
+        }
+
+    def get_mapped_key(self, key):
+        if key in self.custom_controls['keyboard']:
+            return self.custom_controls['keyboards'][key]
+        elif key in self.default_controls['keyboard']:
+            return self.default_controls['keyboard'][key]
+        else:
+            return None
+
 
     def process_events(self):
-        events = list()
-        for new_event in pygame.event.get(pygame.KEYDOWN):
-            if new_event.type == pygame.KEYDOWN:
-                if new_event.key in self.control_modes["keyboard"]:
-                    events.append(self.control_modes["keyboard"][new_event.key])
+        events = []
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                events.append(EVENT_QUIT)
+            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                mapped_key = self.get_mapped_key(event.key)
+                if mapped_key is not None:
+                    events.append(mapped_key)
+
         return events
 
 
