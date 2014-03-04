@@ -42,8 +42,6 @@ class Runner(object):
             # Draw Step
             events = self.controller_instance.process_events()
 
-            print events
-
             # Main Phase
             for event in events:
                 if event == EVENT_QUIT:
