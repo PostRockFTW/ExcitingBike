@@ -61,7 +61,7 @@ class Controller(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 events.append(EVENT_QUIT)
-            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+            elif event.type == pygame.KEYDOWN:
                 mapped_key = self.get_mapped_key(event.key)
                 if mapped_key is not None:
                     events.append(mapped_key)
