@@ -12,7 +12,6 @@ class MenuScreen(Screen):
 
         # Menu logic variables
 
-        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
         self.menu_options_index = 0
         self.menu_options = ["none"]
         self.selection = self.menu_options[self.menu_options_index]

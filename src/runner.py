@@ -14,8 +14,7 @@ class Runner(object):
 
     def __init__(self, initial_screen):
 
-        pygame.init()
-        pygame.font.init()
+
         self.clock = pygame.time.Clock()
         self.screen = initial_screen
         self.screen_resolution = 2

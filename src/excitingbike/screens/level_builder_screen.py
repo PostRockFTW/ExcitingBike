@@ -13,7 +13,6 @@ class LevelBuilderScreen(Screen):
 #Track objects
         self.current_track_list = ["START1","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","END"]
         self.current_track_surface = Track.getThisTrack(self.current_track_list)
-
         self.marker_surface_width = 8*self.SCREEN_MAGNIFIER
         self.marker_surface_height = self.marker_surface_width
         self.marker_surface = pygame.Surface((self.marker_surface_width, self.marker_surface_height))
@@ -23,6 +22,13 @@ class LevelBuilderScreen(Screen):
         self.options_surface_height = 56*self.SCREEN_MAGNIFIER
         self.options_surface = pygame.Surface((self.options_surface_width,self.options_surface_height))
         self.options_surface.fill(self.BGCOLOR)
+        self.not_hurdle_options = ["START1", "START2", "START3", "BLANK", "END"]
+        self.hurdle_options = Track.track_hurdles.keys()
+        self.hurdle_options.sort()
+        for not_hurdle_option in self.not_hurdle_options:
+            self.hurdle_options.remove(not_hurdle_option)
+        self.hurdle_options_index = 0
+
     ## TODO Update Biker Location Modules
     def place_holder_up(self):
         print "Up Button Pressed"
@@ -82,4 +88,7 @@ class LevelBuilderScreen(Screen):
         self.displaysurf.blit(self.options_surface, (0,self.WINDOWHEIGHT-self.options_surface_height))
         self.displaysurf.blit(self.marker_surface, (self.SCREEN_MAGNIFIER*64,self.WINDOWHEIGHT-self.options_surface_height-8*self.SCREEN_MAGNIFIER))
         # Options Blit
+        for i in range(len(self.hurdle_options)):
+                self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
+                self.displaysurf.blit(self.fontsurface, ((10*self.SCREEN_MAGNIFIER +i*10*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
 #        self.displaysurf.blit(self.surface, (x,y))

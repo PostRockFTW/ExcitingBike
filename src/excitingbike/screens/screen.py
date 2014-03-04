@@ -15,6 +15,7 @@ class Screen(object):
         self.RED       = (255,   0,   0)
 
         # Screen Settings
+        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
         self.SCREEN_MAGNIFIER = 2
         width = 256
         height = 224
