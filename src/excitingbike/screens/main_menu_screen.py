@@ -28,7 +28,7 @@ class MainMenuScreen(MenuScreen):
         self.logo_location = [(self.WINDOWWIDTH-self.EXCITBIKE_LOGO_SIZE[0])/2,(self.WINDOWHEIGHT-self.EXCITBIKE_LOGO_SIZE[1])/4]
 
         # Menu logic variables
-
+        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
         self.set_menu_options(("SINGLE PLAYER", "MULTI PLAYER", "LEVEL BUILDER", "OPTIONS"))
 
     def update(self,events,states):
@@ -57,7 +57,6 @@ class MainMenuScreen(MenuScreen):
 
             ### Menu Options
 
-            self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
             for i in range(len(self.menu_options)):
                 if i == self.menu_options_index:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
