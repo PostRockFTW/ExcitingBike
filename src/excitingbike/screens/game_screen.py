@@ -41,7 +41,7 @@ class GameScreen(Screen):
         self.started = False
         self.started_time = 0
 
-    def update(self, events, states):
+    def update(self, events):
 
         self.displaysurf.blit(self.track_surface, (self.currentOffset, 0))
 

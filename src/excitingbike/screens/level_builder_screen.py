@@ -54,7 +54,7 @@ class LevelBuilderScreen(Screen):
     def place_holder_select(self):
         print "Select Button Pressed"
 
-    def update(self,events,states):
+    def update(self,events):
 
         # Event Operations
 

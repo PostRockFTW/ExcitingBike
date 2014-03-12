@@ -1,5 +1,5 @@
 import pygame
-from excitingbike.locals import *
+from ..locals import *
 
 
 # Inputs to ExciteBike:

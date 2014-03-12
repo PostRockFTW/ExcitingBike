@@ -1,5 +1,4 @@
 from screen import Screen
-from excitingbike.locals import *
 
 class IntroScreen(Screen):
     def __init__(self):

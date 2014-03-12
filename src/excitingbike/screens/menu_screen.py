@@ -1,6 +1,5 @@
 from screen import Screen
-from excitingbike.locals import *
-
+from ..locals import *
 
 class MenuScreen(Screen):
     def __init__(self):

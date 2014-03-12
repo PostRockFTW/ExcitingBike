@@ -1,6 +1,4 @@
-import pygame
-
-from excitingbike.locals import *
+import pygame.surface
 
 class Screen(object):
     def __init__(self):
