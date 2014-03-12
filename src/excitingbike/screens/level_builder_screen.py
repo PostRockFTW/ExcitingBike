@@ -3,7 +3,7 @@ import pygame
 from screen import Screen
 import excitingbike.game.entities.track as Track
 from pygame.locals import *
-from excitingbike.locals import *
+from ..locals import *
 
 class LevelBuilderScreen(Screen):
     def __init__(self):
@@ -31,10 +31,10 @@ class LevelBuilderScreen(Screen):
 
     ## TODO Update Biker Location Modules
     def options_index_left(self):
-        self.hurdle_options_index += 1
+        self.hurdle_options_index -= 1
 
     def options_index_right(self):
-        self.hurdle_options_index -= 1
+        self.hurdle_options_index += 1
 
     def move_poistion_left(self):
         self.location_index += 16

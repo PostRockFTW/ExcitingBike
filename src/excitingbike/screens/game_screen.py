@@ -1,9 +1,8 @@
-import sys
 import pygame
-import excitingbike.game.entities.track as track
+
+from ..game.entities import track
 from screen import Screen
-from pygame.locals import *
-from excitingbike.locals import *
+
 
 class GameScreen(Screen):
 
@@ -56,9 +55,9 @@ class GameScreen(Screen):
                 msPassed = curTime - self.started_time
 
                 # TODO: make this agnostic as to the # of start hurdles
-                if msPassed >= 0 and msPassed < 1000:
+                if 0 <= msPassed < 1000:
                     self.displaysurf.blit(self.start_hurdles[0], (0, 0))
-                elif msPassed >= 1000 and msPassed < 2000:
+                elif 1000 <= msPassed < 2000:
                     self.displaysurf.blit(self.start_hurdles[1], (0, 0))
                 elif msPassed > 3000:
                     self.started = True

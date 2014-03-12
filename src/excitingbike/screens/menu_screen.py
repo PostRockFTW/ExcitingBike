@@ -59,7 +59,7 @@ class MenuScreen(Screen):
             if self.blink_counter > self.blink_speed:
                 self.blink_state = not self.blink_state
                 self.blink_counter = 0
-            if self.blink_state == True:
+            if self.blink_state:
                 self.blink_color = self.WHITE
             else:
                 self.blink_color = self.RED
