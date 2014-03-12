@@ -1,8 +1,6 @@
-import sys
 import pygame
 from screen import Screen
-import excitingbike.game.entities.track as Track
-from pygame.locals import *
+from ..game.entities import track as Track
 from ..locals import *
 
 class LevelBuilderScreen(Screen):

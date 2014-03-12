@@ -51,12 +51,12 @@ def main():
 
         pressedKeys = pygame.key.get_pressed()
         shiftPressed = pressedKeys[K_LSHIFT] or pressedKeys[K_RSHIFT]
-        if (pressedKeys[K_RIGHT]):
+        if pressedKeys[K_RIGHT]:
             currOffset += 10
             rightMost = (backgroundSurface.get_width() - mainSurface.get_width())
             if (currOffset > rightMost) or shiftPressed:
                 currOffset = rightMost
-        elif (pressedKeys[K_LEFT]):
+        elif pressedKeys[K_LEFT]:
             currOffset -= 10
             if (currOffset < 0) or shiftPressed:
                 currOffset = 0

@@ -1,11 +1,9 @@
-import sys
 import pygame
-import game_screen
+
 from menu_screen import MenuScreen
 from option_menu_screen import OptionMenuScreen
 from game_screen import GameScreen
 from level_builder_screen import LevelBuilderScreen
-from pygame.locals import *
 
 
 class MainMenuScreen(MenuScreen):

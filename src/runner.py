@@ -1,13 +1,11 @@
 import sys
-import pygame
-from excitingbike.screens.menu_screen import MenuScreen
-from excitingbike.screens.main_menu_screen import MainMenuScreen
-from excitingbike.screens.option_menu_screen import OptionMenuScreen
-from excitingbike.screens.game_screen import GameScreen
-from excitingbike.controller.controller import Controller
 
-from pygame.locals import *
+import pygame
+
+from excitingbike.screens.main_menu_screen import MainMenuScreen
+from excitingbike.controller.controller import Controller
 from excitingbike.locals import *
+
 
 # Runs the main loop of the program
 class Runner(object):

@@ -1,7 +1,5 @@
-import sys
 import pygame
 
-from pygame.locals import *
 from excitingbike.locals import *
 
 class Screen(object):

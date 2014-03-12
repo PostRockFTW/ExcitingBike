@@ -38,7 +38,7 @@ tint = 0
 
 def checkIfLoaded():
     global track_sprite
-    if (track_sprite is None):
+    if track_sprite is None:
         track_sprite = pygame.image.load("assets/tracks.png").convert()
 
 def getTrackHurdle(hurdleLetter):

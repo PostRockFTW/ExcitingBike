@@ -1,3 +1,5 @@
+import pygame
+
 class Biker(pygame.sprite.Sprite):
     # Initializes with a Bike controller
     def __init__(self, controller):

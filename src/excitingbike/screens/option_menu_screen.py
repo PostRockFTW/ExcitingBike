@@ -1,8 +1,6 @@
-import sys
-import pygame
 import game_screen
 from menu_screen import MenuScreen
-from pygame.locals import *
+
 
 class OptionMenuScreen(MenuScreen):
     def __init__(self):

@@ -1,8 +1,4 @@
-import sys
-import pygame
-
 from screen import Screen
-from pygame.locals import *
 from excitingbike.locals import *
 
 class IntroScreen(Screen):
