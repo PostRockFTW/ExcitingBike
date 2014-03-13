@@ -6,7 +6,7 @@ from ..locals import *
 class LevelBuilderScreen(Screen):
     def __init__(self):
         super(LevelBuilderScreen,self).__init__()
-        self.location_index = 10
+        self.location_index = 0
         self.BGCOLOR = self.BLACK
 #Track objects
         self.current_track_list = ["START1","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","END"]
@@ -25,7 +25,7 @@ class LevelBuilderScreen(Screen):
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
         self.hurdle_options_index = 0
-        self.highlighted_track = self.hurdle_options_index
+        self.highlighted_track = ((self.location_index/16)+9)
     ## TODO Update Biker Location Modules
     def options_index_left(self):
         self.hurdle_options_index -= 1
@@ -35,11 +35,11 @@ class LevelBuilderScreen(Screen):
 
     def move_poistion_left(self):
         self.location_index += 16
-
+        self.hurdle_option_index = self.current_track_list[self.highlighted_track]
 
     def move_poistion_right(self):
         self.location_index -= 16
-
+        self.hurdle_option_index = self.current_track_list[self.highlighted_track]
 
     def place_holder_a(self):
         print "A Button Pressed"
@@ -67,7 +67,7 @@ class LevelBuilderScreen(Screen):
             elif event == KEY_RIGHT:
                 self.move_poistion_right()
             elif event == KEY_A_BUTTON:
-                print self.hurdle_options
+                self.place_holder_a()
             elif event == KEY_B_BUTTON:
                 self.place_holder_b()
             elif event == KEY_START:
@@ -76,7 +76,8 @@ class LevelBuilderScreen(Screen):
                 self.place_holder_select()
 
         # Track State Update
-
+        self.highlighted_track = (-self.location_index/16)+9
+        self.current_track_list[self.highlighted_track] = self.hurdle_options[self.hurdle_options_index]
         self.current_track_surface = Track.getThisTrack(self.current_track_list)
 
         ### Place Holder Background
