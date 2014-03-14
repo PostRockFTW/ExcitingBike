@@ -33,13 +33,13 @@ class LevelBuilderScreen(Screen):
     def options_index_right(self):
         self.hurdle_options_index += 1
 
-    def move_poistion_left(self):
+    def move_position_left(self):
         self.location_index += 16
-        self.hurdle_option_index = self.current_track_list[self.highlighted_track]
+        self.highlighted_track = (-self.location_index/16)+9
 
-    def move_poistion_right(self):
+    def move_position_right(self):
         self.location_index -= 16
-        self.hurdle_option_index = self.current_track_list[self.highlighted_track]
+        self.highlighted_track = (-self.location_index/16)+9
 
     def place_holder_a(self):
         print "A Button Pressed"
@@ -63,9 +63,9 @@ class LevelBuilderScreen(Screen):
             elif event == KEY_UP:
                 self.options_index_right()
             elif event == KEY_LEFT:
-                self.move_poistion_left()
+                self.move_position_left()
             elif event == KEY_RIGHT:
-                self.move_poistion_right()
+                self.move_position_right()
             elif event == KEY_A_BUTTON:
                 self.place_holder_a()
             elif event == KEY_B_BUTTON:
@@ -76,7 +76,11 @@ class LevelBuilderScreen(Screen):
                 self.place_holder_select()
 
         # Track State Update
-        self.highlighted_track = (-self.location_index/16)+9
+        if self.hurdle_options_index < 0:
+            self.hurdle_options_index = len(self.hurdle_options)-1
+        elif self.hurdle_options_index == len(self.hurdle_options):
+            self.hurdle_options_index = 0
+        self.hurdle_option_index = self.highlighted_track
         self.current_track_list[self.highlighted_track] = self.hurdle_options[self.hurdle_options_index]
         self.current_track_surface = Track.getThisTrack(self.current_track_list)
 
@@ -90,11 +94,17 @@ class LevelBuilderScreen(Screen):
 
         # Options Blit
         for i in range(len(self.hurdle_options)):
-                if self.hurdle_options[i] == "Blank":
+                if self.hurdle_options[i] == "BLANK":
                     self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
+                    self.displaysurf.blit(self.fontsurface, ((8*self.SCREEN_MAGNIFIER),190*self.SCREEN_MAGNIFIER))
                 else:
                     self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
-                    self.displaysurf.blit(self.fontsurface, ((i*10*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
+                    self.displaysurf.blit(self.fontsurface, ((i*8*self.SCREEN_MAGNIFIER+80),190*self.SCREEN_MAGNIFIER))
+        # Cursor Blit
         self.fontsurface = (self.myfont.render("^", 1, self.WHITE))
-        self.displaysurf.blit(self.fontsurface, ((self.hurdle_options_index*10*self.SCREEN_MAGNIFIER),210*self.SCREEN_MAGNIFIER))
+
+        if self.hurdle_options_index == 0:
+            self.displaysurf.blit(self.fontsurface, (((self.hurdle_options_index*8+24)*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
+        else:
+            self.displaysurf.blit(self.fontsurface, (((self.hurdle_options_index*8+40)*self.SCREEN_MAGNIFIER),200*self.SCREEN_MAGNIFIER))
 #        self.displaysurf.blit(self.surface, (x,y))
