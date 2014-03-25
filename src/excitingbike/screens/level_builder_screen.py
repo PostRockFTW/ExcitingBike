@@ -25,7 +25,7 @@ class LevelBuilderScreen(Screen):
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
         self.hurdle_options_index = 0
-        self.highlighted_track = ((self.location_index/16)+9)
+
     ## TODO Update Biker Location Modules
     def options_index_left(self):
         self.hurdle_options_index -= 1
@@ -35,11 +35,11 @@ class LevelBuilderScreen(Screen):
 
     def move_position_left(self):
         self.location_index += 16
-        self.highlighted_track = (-self.location_index/16)+9
+        self.hurdle_options_index =  self.hurdle_options.index(self.current_track_list[(-self.location_index/16)+9])
 
     def move_position_right(self):
         self.location_index -= 16
-        self.highlighted_track = (-self.location_index/16)+9
+        self.hurdle_options_index =  self.hurdle_options.index(self.current_track_list[(-self.location_index/16)+9])
 
     def place_holder_a(self):
         print "A Button Pressed"
@@ -80,8 +80,8 @@ class LevelBuilderScreen(Screen):
             self.hurdle_options_index = len(self.hurdle_options)-1
         elif self.hurdle_options_index == len(self.hurdle_options):
             self.hurdle_options_index = 0
-        self.hurdle_option_index = self.highlighted_track
-        self.current_track_list[self.highlighted_track] = self.hurdle_options[self.hurdle_options_index]
+
+        self.current_track_list[(-self.location_index/16)+9] = self.hurdle_options[self.hurdle_options_index]
         self.current_track_surface = Track.getThisTrack(self.current_track_list)
 
         ### Place Holder Background
