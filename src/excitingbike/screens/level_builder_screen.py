@@ -1,6 +1,6 @@
 import pygame
 from screen import Screen
-from ..game.entities import track as Track
+from ..game.gfx import track as Track
 from ..locals import *
 
 class LevelBuilderScreen(Screen):

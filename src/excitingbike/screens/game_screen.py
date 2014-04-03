@@ -1,6 +1,7 @@
 import pygame
 
-from ..game.entities import track
+from ..game.gfx import track as Track
+from ..game.gfx.biker import Biker
 from screen import Screen
 
 
@@ -12,10 +13,12 @@ class GameScreen(Screen):
 
         self.temporary_track_list = ["BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK"]
 
-        self.start_hurdles = [track.getTrackHurdle(hurdle) for hurdle in ("START1", "START2", "START3")]
+        self.start_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in ("START1", "START2", "START3")]
         self.start_hurdle_width = self.start_hurdles[0].get_width()
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
+
+        self.biker = Biker()
 
         self.resetGame()
 
@@ -24,7 +27,7 @@ class GameScreen(Screen):
 
     def loadLevel(self, trackList):
 
-        track_hurdles = [track.getTrackHurdle(hurdle) for hurdle in trackList]
+        track_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in trackList]
         track_width = sum((surface.get_width() for surface in track_hurdles))
         track_height = track_hurdles[0].get_height()
         track_surface = pygame.Surface((track_width, track_height))
@@ -65,8 +68,7 @@ class GameScreen(Screen):
         else: # Game is active
             self.currentOffset -= self.bikerSpeed
 
-        # Event Operations
-
+        # Handle inputs
         for event in events:
             """
             if event == KEY_DOWN:
@@ -87,4 +89,7 @@ class GameScreen(Screen):
                 self.place_holder_select()
             """
             pass
+
+        # Update graphics
+        self.displaysurf.blit(self.biker.displaysurf, (0, 50))
 
