@@ -19,14 +19,31 @@ class GameScreen(Screen):
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
 
+        self.heatBarWidth =  100
+        self.heatBarHeight = 12
+        self.heatBarBorderWith = 1
+        self.heat = 0
+
         self.biker = Biker()
 
         self.resetGame()
 
+        self.friction       = 0.2
+        self.acceleration_a = 1
+        self.acceleration_b = 2
+
+        self.bikerSpeed    = 0
+        self.maxBikerSpeed = 4
+
         self.currentOffset = 0
-        self.bikerSpeed = 4
 
         self.lane = 2
+        self.targetLane = 2
+
+        self.minrange = 1
+        self.maxrange = 4
+        self.lanerange = (self.minrange, self.maxrange)
+
 
     def loadLevel(self, trackList):
 
@@ -48,6 +65,13 @@ class GameScreen(Screen):
         self.started_time = 0
 
     def update(self, events, states):
+
+        pygame.draw.rect(self.displaysurf,
+                             pygame.Color("black"),
+                             pygame.Rect(0,
+                                         0,
+                                         self.WINDOWWIDTH,
+                                         self.WINDOWHEIGHT))
 
         self.displaysurf.blit(self.track_surface, (self.currentOffset, 0))
 
@@ -71,22 +95,30 @@ class GameScreen(Screen):
         else: # Game is active
             self.currentOffset -= self.bikerSpeed
 
+        self.bikerSpeed -= self.friction
+
         # Handle inputs
         for event in events:
 
             if event == KEY_DOWN:
-                self.lane = self.lane + 1
+                self.targetLane = self.targetLane + 1
+                pass
             elif event == KEY_UP:
-                self.lane = self.lane - 1
-            """
-            elif event == KEY_LEFT:
-                self.place_holder_left()
-            elif event == KEY_RIGHT:
-                self.place_holder_right()
+                self.targetLane = self.targetLane - 1
+                pass
             elif event == KEY_A_BUTTON:
-                self.place_holder_a()
+                # 1.5 seconds to get to full speed
+
+                self.bikerSpeed += self.acceleration_a
+                pass
             elif event == KEY_B_BUTTON:
-                self.place_holder_b()
+                self.bikerSpeed += self.acceleration_b
+                pass
+            elif event == KEY_LEFT:
+                self.heat -= 10
+            elif event == KEY_RIGHT:
+                self.heat += 10
+            """
             elif event == KEY_START:
                 self.place_holder_start()
             elif event == KEY_SELECT:
@@ -94,15 +126,47 @@ class GameScreen(Screen):
             """
             pass
 
+        # Restrict to lanes between minrange and maxrange
+        self.targetLane = max(self.lanerange[0],
+                              min(self.lanerange[-1], self.targetLane))
+
+        self.bikerSpeed = max(0,
+                              min(self.bikerSpeed, self.maxBikerSpeed))
+
+        direction = -1 if self.lane > self.targetLane else 1
+
+        # This executes for some reason??
+        # if self.lane != self.targetLane:
+
+        if abs(self.lane - self.targetLane) > 0.01:
+            self.lane += direction * 0.2
+
+        print
+
         # Update graphics
-        self.displaysurf.blit(self.biker.displaysurf, (0, self.yPosForLane(self.lane)))
+        self.displaysurf.blit(self.biker.displaysurf,
+                              (0, self.yPosForLane(self.lane)))
+
+
+        heatBarRect = pygame.Rect(512 - self.heatBarWidth,
+                                  448 - self.heatBarHeight,
+                                  self.heatBarWidth,
+                                  self.heatBarHeight)
+        # Heat bar border
+        pygame.draw.rect(self.displaysurf,
+                         pygame.Color("red"),
+                         heatBarRect,
+                         self.heatBarBorderWith)
+
+        heatBarRect.width *= self.heat / 100.0
+        # Heat bar
+        pygame.draw.rect(self.displaysurf,
+                         pygame.Color("red"),
+                         heatBarRect)
+
 
     def yPosForLane(self, lane):
-        # There are 4 lanes (1 through 4, top to bottom)
-        return {
-            1: 40,
-            2: 50,
-            3: 60,
-            4: 70,
-        }[lane]
+        laneHeight = 12
+        verticalOffset = 10
+        return ((lane + 3) * laneHeight) - verticalOffset
 

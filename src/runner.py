@@ -61,7 +61,7 @@ class Runner(object):
             pygame.display.set_caption('Exciting Bike (FPS: %0.2f)' % self.clock.get_fps())
 
             # End Step
-            self.clock.tick(30)
+            delatTime = self.clock.tick(30)
 
         pygame.quit()
         sys.exit()
