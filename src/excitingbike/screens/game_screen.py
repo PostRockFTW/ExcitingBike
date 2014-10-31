@@ -3,6 +3,7 @@ import pygame
 from ..game.gfx import track as Track
 from ..game.gfx.biker import Biker
 from screen import Screen
+from ..locals import *
 
 
 class GameScreen(Screen):
@@ -24,6 +25,8 @@ class GameScreen(Screen):
 
         self.currentOffset = 0
         self.bikerSpeed = 4
+
+        self.lane = 2
 
     def loadLevel(self, trackList):
 
@@ -70,11 +73,12 @@ class GameScreen(Screen):
 
         # Handle inputs
         for event in events:
-            """
+
             if event == KEY_DOWN:
-                self.place_holder_down()
+                self.lane = self.lane + 1
             elif event == KEY_UP:
-                self.place_holder_up()
+                self.lane = self.lane - 1
+            """
             elif event == KEY_LEFT:
                 self.place_holder_left()
             elif event == KEY_RIGHT:
@@ -91,5 +95,14 @@ class GameScreen(Screen):
             pass
 
         # Update graphics
-        self.displaysurf.blit(self.biker.displaysurf, (0, 50))
+        self.displaysurf.blit(self.biker.displaysurf, (0, self.yPosForLane(self.lane)))
+
+    def yPosForLane(self, lane):
+        # There are 4 lanes (1 through 4, top to bottom)
+        return {
+            1: 40,
+            2: 50,
+            3: 60,
+            4: 70,
+        }[lane]
 
