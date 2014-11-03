@@ -54,19 +54,21 @@ class Controller(object):
         else:
             return None
 
-
+    events = set([])
     def process_events(self):
-        events = []
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                events.append(EVENT_QUIT)
+                self.events.add(EVENT_QUIT)
             elif event.type == pygame.KEYDOWN:
                 mapped_key = self.get_mapped_key(event.key)
                 if mapped_key is not None:
-                    events.append(mapped_key)
-
-        return events
+                    self.events.add(mapped_key)
+            elif event.type == pygame.KEYUP:
+                mapped_key = self.get_mapped_key(event.key)
+                if mapped_key is not None:
+                    self.events.remove(mapped_key)
+        return self.events
 
 
 class KeyboardController(object):

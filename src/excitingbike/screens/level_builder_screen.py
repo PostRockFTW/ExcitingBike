@@ -20,7 +20,7 @@ class LevelBuilderScreen(Screen):
         self.options_surface_height = 56*self.SCREEN_MAGNIFIER
         self.options_surface = pygame.Surface((self.options_surface_width,self.options_surface_height))
         self.options_surface.fill(self.BGCOLOR)
-        self.not_hurdle_options = ["START1", "START2", "START3", "END"]
+        self.not_hurdle_options = ["START1", "START2", "START3"]
         self.hurdle_options = Track.track_hurdles.keys()
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
@@ -86,7 +86,7 @@ class LevelBuilderScreen(Screen):
 
         ### Place Holder Background
 
-        # Track Blit
+        # Track Blitdddd
         self.displaysurf.fill(self.LIGHTBLUE)
         self.displaysurf.blit(self.current_track_surface, (self.location_index,self.WINDOWHEIGHT-self.options_surface_height-Track.TRACK_HEIGHT))
         self.displaysurf.blit(self.options_surface, (0,self.WINDOWHEIGHT-self.options_surface_height))
