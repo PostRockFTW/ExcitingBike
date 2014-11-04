@@ -19,7 +19,6 @@ class Runner(object):
         self.WINDOWWIDTH = 256*self.screen_resolution
         self.WINDOWHEIGHT = 224*self.screen_resolution
         self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT))
-        pygame.key.set_repeat(50, 50)
 
         # Load Game State Instances
 

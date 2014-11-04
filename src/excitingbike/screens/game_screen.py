@@ -19,31 +19,33 @@ class GameScreen(Screen):
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
 
-        self.heatBarWidth =  100
-        self.heatBarHeight = 12
-        self.heatBarBorderWith = 1
-        self.heat = 0
+        self.heatBarWidth       =  100
+        self.heatBarHeight      = 12
+        self.heatBarBorderWith  = 1
+        self.heat               = 0
 
         self.biker = Biker()
 
         self.resetGame()
 
-        self.friction       = 0.2
-        self.acceleration_a = 1
-        self.acceleration_b = 2
+        self.friction       = 0.1
+        self.acceleration_a = .2
+        self.acceleration_b = 1
 
         self.bikerSpeed    = 0
         self.maxBikerSpeed = 4
 
         self.currentOffset = 0
 
-        self.lane = 2
+        self.lane       = 2
         self.targetLane = 2
 
-        self.minrange = 1
-        self.maxrange = 4
-        self.lanerange = (self.minrange, self.maxrange)
+        self.minrange   = 1
+        self.maxrange   = 4
+        self.lanerange  = (self.minrange, self.maxrange)
 
+        self.eventStates = []
+        self.lastEventStates = []
 
     def loadLevel(self, trackList):
 
@@ -98,33 +100,58 @@ class GameScreen(Screen):
         self.bikerSpeed -= self.friction
 
         # Handle inputs
-        for event in events:
 
-            if event == KEY_DOWN:
-                self.targetLane = self.targetLane + 1
-                pass
-            elif event == KEY_UP:
+        # Create/Wipe Event States
+        self.eventStates = [False for i in range(9)]#number of input types ##Todo make this reflexive to max(events)
+
+        #Populate Event States
+        for i in events: #Event Types are stored as numbers starting at 0
+            self.eventStates[i] = True
+            # FROM LOCALS
+            #KEY_UP       = 0
+            #KEY_DOWN     = 1
+            #KEY_LEFT     = 2
+            #KEY_RIGHT    = 3
+            #KEY_A_BUTTON = 4
+            #KEY_B_BUTTON = 5
+            #KEY_START    = 6
+            #KEY_SELECT   = 7
+            #KEY_ESCAPE   = 8
+        if self.eventStates[0]    == True:
+            if self.lastEventStates[0] == False:
                 self.targetLane = self.targetLane - 1
                 pass
-            elif event == KEY_A_BUTTON:
-                # 1.5 seconds to get to full speed
-
-                self.bikerSpeed += self.acceleration_a
+        if self.eventStates[1]    == True:
+            if self.lastEventStates[1] == False:
+                self.targetLane = self.targetLane + 1
                 pass
-            elif event == KEY_B_BUTTON:
-                self.bikerSpeed += self.acceleration_b
-                pass
-            elif event == KEY_LEFT:
-                self.heat -= 10
-            elif event == KEY_RIGHT:
-                self.heat += 10
-            """
-            elif event == KEY_START:
-                self.place_holder_start()
-            elif event == KEY_SELECT:
-                self.place_holder_select()
-            """
+        if self.eventStates[4]    == True:
+            # 1.5 seconds to get to full speed
+            self.bikerSpeed += self.acceleration_a
             pass
+        if self.eventStates[5]    == True:
+            self.bikerSpeed += self.acceleration_b
+            pass
+        if self.eventStates[2]    == True:
+            #Only for heat bar testing
+            #Todo change to biker angle
+            self.heat -= 10
+            pass
+        if self.eventStates[3]    == True:
+            self.heat += 10
+            pass
+        """
+        if self.eventStates[6]    == True:
+            self.place_holder_start()
+        if self.eventStates[7]    == True:
+            self.place_holder_select()
+        if self.eventStates[8]    == True:
+            self.place_holder_escape()
+        """
+        pass
+        self.lastEventStates = self.eventStates
+
+
 
         # Restrict to lanes between minrange and maxrange
         self.targetLane = max(self.lanerange[0],
