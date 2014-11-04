@@ -19,8 +19,8 @@ class GameScreen(Screen):
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
 
-        self.heatBarWidth       =  100
-        self.heatBarHeight      = 12
+        self.heatBarWidth       = 60.0
+        self.heatBarHeight      = 12.0
         self.heatBarBorderWith  = 1
         self.heat               = 0
 
@@ -135,11 +135,13 @@ class GameScreen(Screen):
         if self.eventStates[2]    == True:
             #Only for heat bar testing
             #Todo change to biker angle
-            self.heat -= 10
-            pass
+            if self.heat > 0:
+                self.heat -= 1
+                pass
         if self.eventStates[3]    == True:
-            self.heat += 10
-            pass
+            if self.heat < self.heatBarWidth:
+                self.heat += 1
+                pass
         """
         if self.eventStates[6]    == True:
             self.place_holder_start()
@@ -168,15 +170,13 @@ class GameScreen(Screen):
         if abs(self.lane - self.targetLane) > 0.01:
             self.lane += direction * 0.2
 
-        print
-
         # Update graphics
         self.displaysurf.blit(self.biker.displaysurf,
                               (0, self.yPosForLane(self.lane)))
 
 
-        heatBarRect = pygame.Rect(512 - self.heatBarWidth,
-                                  448 - self.heatBarHeight,
+        heatBarRect = pygame.Rect(256 - self.heatBarWidth,
+                                  256 - self.heatBarHeight,
                                   self.heatBarWidth,
                                   self.heatBarHeight)
         # Heat bar border
@@ -185,7 +185,7 @@ class GameScreen(Screen):
                          heatBarRect,
                          self.heatBarBorderWith)
 
-        heatBarRect.width *= self.heat / 100.0
+        heatBarRect.width *= self.heat / self.heatBarWidth
         # Heat bar
         pygame.draw.rect(self.displaysurf,
                          pygame.Color("red"),
