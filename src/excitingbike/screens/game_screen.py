@@ -44,6 +44,7 @@ class GameScreen(Screen):
         self.maxrange   = 4
         self.lanerange  = (self.minrange, self.maxrange)
 
+        #Event handling lists
         self.eventStates = []
         self.lastEventStates = []
 
@@ -135,10 +136,12 @@ class GameScreen(Screen):
         if self.eventStates[2]    == True:
             #Only for heat bar testing
             #Todo change to biker angle
+            self.biker.left()
             if self.heat > 0:
                 self.heat -= 1
                 pass
         if self.eventStates[3]    == True:
+            self.biker.right()
             if self.heat < self.heatBarWidth:
                 self.heat += 1
                 pass
@@ -194,6 +197,6 @@ class GameScreen(Screen):
 
     def yPosForLane(self, lane):
         laneHeight = 12
-        verticalOffset = 10
+        verticalOffset = 16
         return ((lane + 3) * laneHeight) - verticalOffset
 
