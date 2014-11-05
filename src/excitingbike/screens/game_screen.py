@@ -18,9 +18,10 @@ class GameScreen(Screen):
         self.start_hurdle_width = self.start_hurdles[0].get_width()
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
+        self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
 
-        self.heatBarWidth       = 60.0
-        self.heatBarHeight      = 12.0
+        self.heatBarWidth       = 31.0
+        self.heatBarHeight      = 8.0
         self.heatBarBorderWith  = 1
         self.heat               = 0
 
@@ -50,18 +51,18 @@ class GameScreen(Screen):
 
     def loadLevel(self, trackList):
 
-        track_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in trackList]
-        track_width = sum((surface.get_width() for surface in track_hurdles))
-        track_height = track_hurdles[0].get_height()
-        track_surface = pygame.Surface((track_width, track_height))
+        self.track_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in trackList]
+        self.track_width = sum((surface.get_width() for surface in self.track_hurdles))
+        self.track_height = self.track_hurdles[0].get_height()
+        self.track_surface = pygame.Surface((self.track_width, self.track_height))
 
         # For now, just blit the hurdles to the level once
         xPos = self.start_hurdle_width
-        for surface in track_hurdles:
-            track_surface.blit(surface, (xPos, 0))
+        for surface in self.track_hurdles:
+            self.track_surface.blit(surface, (xPos, 0))
             xPos += surface.get_width()
 
-        return track_surface
+        return self.track_surface
 
     def resetGame(self):
         self.started = False
@@ -69,16 +70,16 @@ class GameScreen(Screen):
 
     def update(self, events, states):
 
-        pygame.draw.rect(self.displaysurf,
-                             pygame.Color("black"),
-                             pygame.Rect(0,
-                                         0,
-                                         self.WINDOWWIDTH,
-                                         self.WINDOWHEIGHT))
+        #pygame.draw.rect(self.displaysurf,
+        #                     pygame.Color("black"),
+        #                     pygame.Rect(0,
+        #                                 0,
+        #                                 self.WINDOWWIDTH,
+        #                                 self.WINDOWHEIGHT))
+        self.displaysurf.blit(self.background_surface, (0,0))
+        self.displaysurf.blit(self.track_surface, (self.currentOffset, 72))
 
-        self.displaysurf.blit(self.track_surface, (self.currentOffset, 0))
-
-        self.displaysurf.blit(self.start_hurdles[-1], (self.currentOffset, 0))
+        self.displaysurf.blit(self.start_hurdles[-1], (self.currentOffset, 72))
 
         if not self.started:
             if self.started_time == 0:
@@ -134,25 +135,21 @@ class GameScreen(Screen):
             self.bikerSpeed += self.acceleration_b
             pass
         if self.eventStates[2]    == True:
-            #Only for heat bar testing
             #Todo change to biker angle
             self.biker.left()
+        if self.eventStates[3]    == True:
+            self.biker.right()
+        if self.eventStates[6]    == True:
             if self.heat > 0:
                 self.heat -= 1
                 pass
-        if self.eventStates[3]    == True:
-            self.biker.right()
+        if self.eventStates[7]    == True:
             if self.heat < self.heatBarWidth:
                 self.heat += 1
                 pass
-        """
-        if self.eventStates[6]    == True:
-            self.place_holder_start()
-        if self.eventStates[7]    == True:
-            self.place_holder_select()
         if self.eventStates[8]    == True:
             self.place_holder_escape()
-        """
+
         pass
         self.lastEventStates = self.eventStates
 
@@ -175,18 +172,19 @@ class GameScreen(Screen):
 
         # Update graphics
         self.displaysurf.blit(self.biker.displaysurf,
-                              (0, self.yPosForLane(self.lane)))
+                              (0,
+                               self.yPosForLane(self.lane)))
 
 
-        heatBarRect = pygame.Rect(256 - self.heatBarWidth,
-                                  256 - self.heatBarHeight,
+        heatBarRect = pygame.Rect(144 - self.heatBarWidth,
+                                  209 - self.heatBarHeight,
                                   self.heatBarWidth,
                                   self.heatBarHeight)
         # Heat bar border
-        pygame.draw.rect(self.displaysurf,
-                         pygame.Color("red"),
-                         heatBarRect,
-                         self.heatBarBorderWith)
+        #pygame.draw.rect(self.displaysurf,
+         #                pygame.Color("red"),
+          #               heatBarRect,
+           #              self.heatBarBorderWith)
 
         heatBarRect.width *= self.heat / self.heatBarWidth
         # Heat bar
@@ -197,6 +195,6 @@ class GameScreen(Screen):
 
     def yPosForLane(self, lane):
         laneHeight = 12
-        verticalOffset = 16
-        return ((lane + 3) * laneHeight) - verticalOffset
+        verticalOffset = 90
+        return (lane * laneHeight) + verticalOffset
 

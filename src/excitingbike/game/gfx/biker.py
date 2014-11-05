@@ -43,8 +43,6 @@ class Biker():
         print("moving right")
         self.spriteMapX -= 1
         self.update()
-
-
     # Accelerates biker if not at max speed
     def accelerate(self):
         print("accelerating")
