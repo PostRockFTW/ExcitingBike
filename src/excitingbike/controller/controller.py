@@ -68,7 +68,20 @@ class Controller(object):
                 mapped_key = self.get_mapped_key(event.key)
                 if mapped_key is not None:
                     self.events.remove(mapped_key)
-        return self.events
+        self.eventStates = [False for i in range(9)]#number of input types ##Todo make this reflexive to max(events)
+        for i in self.events: #Event Types are stored as numbers starting at 0
+            self.eventStates[i] = True
+            # FROM LOCALS
+            #KEY_UP       = 0
+            #KEY_DOWN     = 1
+            #KEY_LEFT     = 2
+            #KEY_RIGHT    = 3
+            #KEY_A_BUTTON = 4
+            #KEY_B_BUTTON = 5
+            #KEY_START    = 6
+            #KEY_SELECT   = 7
+            #KEY_ESCAPE   = 8
+        return self.eventStates
 
 
 class KeyboardController(object):

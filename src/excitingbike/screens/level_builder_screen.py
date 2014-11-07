@@ -25,7 +25,7 @@ class LevelBuilderScreen(Screen):
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
         self.hurdle_options_index = 0
-
+        self.lastEventStates = []
     ## TODO Update Biker Location Modules
     def options_index_left(self):
         self.hurdle_options_index -= 1
@@ -57,24 +57,41 @@ class LevelBuilderScreen(Screen):
 
         # Event Operations
 
-        for event in events:
-            if event == KEY_DOWN:
+            # FROM LOCALS
+            #KEY_UP       = 0
+            #KEY_DOWN     = 1
+            #KEY_LEFT     = 2
+            #KEY_RIGHT    = 3
+            #KEY_A_BUTTON = 4
+            #KEY_B_BUTTON = 5
+            #KEY_START    = 6
+            #KEY_SELECT   = 7
+            #KEY_ESCAPE   = 8
+        if events[1] == True:
+            if self.lastEventStates[1] == False:
                 self.options_index_left()
-            elif event == KEY_UP:
+        elif events[0] == True:
+            if self.lastEventStates[0] == False:
                 self.options_index_right()
-            elif event == KEY_LEFT:
+        elif events[2] == True:
+            if self.lastEventStates[2] == False:
                 self.move_position_left()
-            elif event == KEY_RIGHT:
+        elif events[3] == True:
+            if self.lastEventStates[3] == False:
                 self.move_position_right()
-            elif event == KEY_A_BUTTON:
+        elif events[4] == True:
+            if self.lastEventStates[4] == False:
                 self.place_holder_a()
-            elif event == KEY_B_BUTTON:
+        elif events[5] == True:
+            if self.lastEventStates[5] == False:
                 self.place_holder_b()
-            elif event == KEY_START:
+        elif events[6] == True:
+            if self.lastEventStates[6] == False:
                 self.place_holder_start()
-            elif event == KEY_SELECT:
+        elif events[7] == True:
+            if self.lastEventStates[7] == False:
                 self.place_holder_select()
-
+        self.lastEventStates = events
         # Track State Update
         if self.hurdle_options_index < 0:
             self.hurdle_options_index = len(self.hurdle_options)-1

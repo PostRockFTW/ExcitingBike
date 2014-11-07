@@ -103,13 +103,7 @@ class GameScreen(Screen):
 
         # Handle inputs
 
-        # Create/Wipe Event States
-        self.eventStates = [False for i in range(9)]#number of input types ##Todo make this reflexive to max(events)
-
-        #Populate Event States
-        for i in events: #Event Types are stored as numbers starting at 0
-            self.eventStates[i] = True
-            # FROM LOCALS
+        # FROM LOCALS
             #KEY_UP       = 0
             #KEY_DOWN     = 1
             #KEY_LEFT     = 2
@@ -119,39 +113,39 @@ class GameScreen(Screen):
             #KEY_START    = 6
             #KEY_SELECT   = 7
             #KEY_ESCAPE   = 8
-        if self.eventStates[0]    == True:
+        if events[0]== True:
             if self.lastEventStates[0] == False:
                 self.targetLane = self.targetLane - 1
                 pass
-        if self.eventStates[1]    == True:
+        if events[1]    == True:
             if self.lastEventStates[1] == False:
                 self.targetLane = self.targetLane + 1
                 pass
-        if self.eventStates[4]    == True:
+        if events[4]    == True:
             # 1.5 seconds to get to full speed
             self.bikerSpeed += self.acceleration_a
             pass
-        if self.eventStates[5]    == True:
+        if events[5]    == True:
             self.bikerSpeed += self.acceleration_b
             pass
-        if self.eventStates[2]    == True:
+        if events[2]    == True:
             #Todo change to biker angle
             self.biker.left()
-        if self.eventStates[3]    == True:
+        if events[3]    == True:
             self.biker.right()
-        if self.eventStates[6]    == True:
+        if events[6]    == True:
             if self.heat > 0:
                 self.heat -= 1
                 pass
-        if self.eventStates[7]    == True:
+        if events[7]    == True:
             if self.heat < self.heatBarWidth:
                 self.heat += 1
                 pass
-        if self.eventStates[8]    == True:
-            self.place_holder_escape()
+        #if events[8]    == True:
+            #self.place_holder_escape()
 
         pass
-        self.lastEventStates = self.eventStates
+        self.lastEventStates = events
 
 
 
