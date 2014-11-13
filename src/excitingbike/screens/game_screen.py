@@ -18,7 +18,7 @@ class GameScreen(Screen):
         self.start_hurdle_width = self.start_hurdles[0].get_width()
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
-        self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
+        # self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
 
         self.heatBarWidth       = 31.0
         self.heatBarHeight      = 8.0
@@ -76,7 +76,7 @@ class GameScreen(Screen):
         #                                 0,
         #                                 self.WINDOWWIDTH,
         #                                 self.WINDOWHEIGHT))
-        self.displaysurf.blit(self.background_surface, (0,0))
+        # self.displaysurf.blit(self.background_surface, (0,0))
         self.displaysurf.blit(self.track_surface, (self.currentOffset, 72))
 
         self.displaysurf.blit(self.start_hurdles[-1], (self.currentOffset, 72))
