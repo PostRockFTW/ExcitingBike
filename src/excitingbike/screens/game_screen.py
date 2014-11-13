@@ -2,6 +2,7 @@ import pygame
 
 from ..game.gfx import track as Track
 from ..game.gfx.biker import Biker
+from ..game.gfx.track import Track
 from screen import Screen
 from ..locals import *
 
@@ -10,11 +11,45 @@ class GameScreen(Screen):
 
     def __init__(self):
         super(GameScreen,self).__init__()
+
+        self.track = Track()
+
         self.BGCOLOR = self.RED
 
-        self.temporary_track_list = ["BLANK","BLANK","BLANK","A","G","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK","BLANK","BLANK","BLANK","D","D","BLANK","BLANK","B","BLANK","BLANK"]
+        self.temporary_track_list = ["BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "A",
+                                     "G",
+                                     "BLANK",
+                                     "BLANK",
+                                     "B",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "D",
+                                     "D",
+                                     "BLANK",
+                                     "BLANK",
+                                     "B",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "BLANK",
+                                     "D",
+                                     "D",
+                                     "BLANK",
+                                     "BLANK",
+                                     "B",
+                                     "BLANK",
+                                     "BLANK"]
 
-        self.start_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in ("START1", "START2", "START3")]
+        self.start_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in ("START1",
+                                                                               "START2",
+                                                                               "START3")]
         self.start_hurdle_width = self.start_hurdles[0].get_width()
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
@@ -51,7 +86,7 @@ class GameScreen(Screen):
 
     def loadLevel(self, trackList):
 
-        self.track_hurdles = [Track.getTrackHurdle(hurdle) for hurdle in trackList]
+        self.track_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in trackList]
         self.track_width = sum((surface.get_width() for surface in self.track_hurdles))
         self.track_height = self.track_hurdles[0].get_height()
         self.track_surface = pygame.Surface((self.track_width, self.track_height))

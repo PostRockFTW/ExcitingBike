@@ -1,16 +1,17 @@
 import pygame
 from screen import Screen
-from ..game.gfx import track as Track
+from ..game.gfx.track import Track
 from ..locals import *
 
 class LevelBuilderScreen(Screen):
     def __init__(self):
         super(LevelBuilderScreen,self).__init__()
+        self.track = Track()
         self.location_index = 0
         self.BGCOLOR = self.BLACK
 #Track objects
         self.current_track_list = ["START1","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","BLANK","END"]
-        self.current_track_surface = Track.getThisTrack(self.current_track_list)
+        self.current_track_surface = self.track.getThisTrack(self.current_track_list)
         self.marker_surface_width = 8*self.SCREEN_MAGNIFIER
         self.marker_surface_height = self.marker_surface_width
         self.marker_surface = pygame.Surface((self.marker_surface_width, self.marker_surface_height))
@@ -21,7 +22,7 @@ class LevelBuilderScreen(Screen):
         self.options_surface = pygame.Surface((self.options_surface_width,self.options_surface_height))
         self.options_surface.fill(self.BGCOLOR)
         self.not_hurdle_options = ["START1", "START2", "START3"]
-        self.hurdle_options = Track.track_hurdles.keys()
+        self.hurdle_options = self.track.track_hurdles.keys()
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
         self.hurdle_options_index = 0
