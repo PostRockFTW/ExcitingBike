@@ -19,36 +19,7 @@ class GameScreen(Screen):
         self.blanksurface = pygame.Surface((self.WINDOWWIDTH,self.WINDOWHEIGHT))
         self.blanksurface.fill(self.BGCOLOR)
 
-        self.temporary_track_list = ["BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "A",
-                                     "G",
-                                     "BLANK",
-                                     "BLANK",
-                                     "B",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "D",
-                                     "D",
-                                     "BLANK",
-                                     "BLANK",
-                                     "B",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "BLANK",
-                                     "D",
-                                     "D",
-                                     "BLANK",
-                                     "BLANK",
-                                     "B",
-                                     "BLANK",
-                                     "BLANK"]
+        self.temporary_track_list = self.track.testTrack()
 
         self.start_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in ("START1",
                                                                                "START2",

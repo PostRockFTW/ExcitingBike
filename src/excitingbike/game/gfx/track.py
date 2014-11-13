@@ -60,3 +60,35 @@ class Track():
             self.track_surface.blit(surface, (self.width_counter,0))
             self.width_counter += surface.get_width ()
         return self.track_surface
+
+    def testTrack(self):
+        return ["BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "A",
+                 "G",
+                 "BLANK",
+                 "BLANK",
+                 "B",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "D",
+                 "D",
+                 "BLANK",
+                 "BLANK",
+                 "B",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "BLANK",
+                 "D",
+                 "D",
+                 "BLANK",
+                 "BLANK",
+                 "B",
+                 "BLANK",
+                 "BLANK"]
