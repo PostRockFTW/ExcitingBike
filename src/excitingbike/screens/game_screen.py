@@ -5,6 +5,7 @@ from ..game.gfx.biker import Biker
 from ..game.gfx.track import Track
 from screen import Screen
 from ..locals import *
+from ..input.input import Input
 
 
 class GameScreen(Screen):
@@ -148,31 +149,34 @@ class GameScreen(Screen):
             #KEY_START    = 6
             #KEY_SELECT   = 7
             #KEY_ESCAPE   = 8
-        if events[0]== True:
+        
+        Input.keys.update_keys(events)
+        
+        if Input.keys.down(0):
             if self.lastEventStates[0] == False:
                 self.targetLane = self.targetLane - 1
                 pass
-        if events[1]    == True:
+        if Input.keys.down(1):
             if self.lastEventStates[1] == False:
                 self.targetLane = self.targetLane + 1
                 pass
-        if events[4]    == True:
+        if Input.keys.down(4):
             # 1.5 seconds to get to full speed
             self.bikerSpeed += self.acceleration_a
             pass
-        if events[5]    == True:
+        if Input.keys.down(5):
             self.bikerSpeed += self.acceleration_b
             pass
-        if events[2]    == True:
+        if Input.keys.down(2):
             #Todo change to biker angle
             self.biker.left()
-        if events[3]    == True:
+        if Input.keys.down(3):
             self.biker.right()
-        if events[6]    == True:
+        if Input.keys.down(6):
             if self.heat > 0:
                 self.heat -= 1
                 pass
-        if events[7]    == True:
+        if Input.keys.down(7):
             if self.heat < self.heatBarWidth:
                 self.heat += 1
                 pass
