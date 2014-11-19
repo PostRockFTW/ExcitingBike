@@ -15,7 +15,9 @@ class GameScreen(Screen):
 
         self.track = Track()
 
-        self.BGCOLOR = self.RED
+        self.BGCOLOR = self.BLACK
+        self.blanksurface = pygame.Surface((self.WINDOWWIDTH,self.WINDOWHEIGHT))
+        self.blanksurface.fill(self.BGCOLOR)
 
         self.temporary_track_list = ["BLANK",
                                      "BLANK",
@@ -113,6 +115,9 @@ class GameScreen(Screen):
         #                                 self.WINDOWWIDTH,
         #                                 self.WINDOWHEIGHT))
         # self.displaysurf.blit(self.background_surface, (0,0))
+
+        self.displaysurf.blit(self.blanksurface, (0, 0))
+
         self.displaysurf.blit(self.track_surface, (self.currentOffset, 72))
 
         self.displaysurf.blit(self.start_hurdles[-1], (self.currentOffset, 72))

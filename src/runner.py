@@ -26,6 +26,7 @@ class Runner(object):
         self.main_menu_instance = MainMenuScreen()
         self.states = [self.main_menu_instance]
         self.lastEventStates = [False,False,False,False,False,False,False,False,False]
+
     def run(self):
 
         # Variable initial states
