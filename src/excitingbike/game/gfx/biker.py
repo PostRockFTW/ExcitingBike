@@ -36,13 +36,15 @@ class Biker():
     # When in air - leans back if possible
     def left(self):
         print("moving left")
-        self.spriteMapX += 1
-        self.update()
+        if self.spriteMapX < 15:
+            self.spriteMapX += 1
+            self.update()
     # When in air - leans forward if possible
     def right(self):
         print("moving right")
-        self.spriteMapX -= 1
-        self.update()
+        if self.spriteMapX > 10:
+            self.spriteMapX -= 1
+            self.update()
     # Accelerates biker if not at max speed
     def accelerate(self):
         print("accelerating")
