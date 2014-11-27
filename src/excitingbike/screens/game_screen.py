@@ -56,7 +56,7 @@ class GameScreen(Screen):
         self.start_hurdle_width = self.start_hurdles[0].get_width()
 
         self.track_surface = self.loadLevel(self.temporary_track_list)
-        # self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
+        self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
 
         self.heatBarWidth       = 31.0
         self.heatBarHeight      = 8.0
@@ -108,15 +108,9 @@ class GameScreen(Screen):
 
     def update(self, events, states):
 
-        #pygame.draw.rect(self.displaysurf,
-        #                     pygame.Color("black"),
-        #                     pygame.Rect(0,
-        #                                 0,
-        #                                 self.WINDOWWIDTH,
-        #                                 self.WINDOWHEIGHT))
-        # self.displaysurf.blit(self.background_surface, (0,0))
+        self.displaysurf.blit(self.background_surface, (0,0))
 
-        self.displaysurf.blit(self.blanksurface, (0, 0))
+        #self.displaysurf.blit(self.blanksurface, (0, 0))
 
         self.displaysurf.blit(self.track_surface, (self.currentOffset, 72))
 
