@@ -167,7 +167,6 @@ class GameScreen(Screen):
             self.bikerSpeed += self.acceleration_b
             pass
         if Input.keys.down(2):
-            #Todo change to biker angle
             self.biker.left()
         if Input.keys.down(3):
             self.biker.right()

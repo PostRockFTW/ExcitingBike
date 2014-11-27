@@ -12,7 +12,7 @@ class Screen(object):
 
         # Screen Settings
         self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
-        self.SCREEN_MAGNIFIER = 2
+        self.screen_resolution = 2
         width = 256
         height = 224
 
@@ -29,13 +29,13 @@ class Screen(object):
 
 
     def setWidth(self, width):
-        self.WINDOWWIDTH = self.SCREEN_MAGNIFIER * width
+        self.WINDOWWIDTH = self.screen_resolution * width
         self.WIN_CENTERX = int(self.WINDOWWIDTH / 2)
 
         self.initDisplaySurf()
 
     def setHeight(self, height):
-        self.WINDOWHEIGHT = self.SCREEN_MAGNIFIER * height
+        self.WINDOWHEIGHT = self.screen_resolution * height
         self.WIN_CENTERY = int(self.WINDOWHEIGHT / 2)
 
         self.initDisplaySurf()

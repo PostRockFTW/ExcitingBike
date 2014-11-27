@@ -18,14 +18,23 @@ class Runner(object):
         self.screen_resolution = 2
         self.WINDOWWIDTH = 256*self.screen_resolution
         self.WINDOWHEIGHT = 224*self.screen_resolution
-        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH, self.WINDOWHEIGHT))
+        self.main_display = pygame.display.set_mode((self.WINDOWWIDTH,
+                                                     self.WINDOWHEIGHT))
 
         # Load Game State Instances
 
         self.controller_instance = Controller()
         self.main_menu_instance = MainMenuScreen()
         self.states = [self.main_menu_instance]
-        self.lastEventStates = [False,False,False,False,False,False,False,False,False]
+        self.lastEventStates = [False,
+                                False,
+                                False,
+                                False,
+                                False,
+                                False,
+                                False,
+                                False,
+                                False]
 
     def run(self):
 
@@ -61,10 +70,14 @@ class Runner(object):
                 continue
 
             # Combat Phase
-            self.states[-1].update(events, self.states)
+            self.states[-1].update(events,
+                                   self.states)
 
             # Post Combat Phase
-            self.main_display.blit(self.states[-1].displaysurf, (0,0))
+            self.scaled_state_surface = self.states[-1].displaysurf #scale to self.screen_resolution
+            self.main_display.blit(self.scaled_state_surface,
+                                   (0,
+                                    0))
             pygame.display.update()
 
             pygame.display.set_caption('Exciting Bike (FPS: %0.2f)' % self.clock.get_fps())
