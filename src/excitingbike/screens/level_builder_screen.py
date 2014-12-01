@@ -6,54 +6,27 @@ from ..input.input import Input
 class LevelBuilderScreen(Screen):
     def __init__(self):
         super(LevelBuilderScreen,self).__init__()
-        self.track = Track()
-        self.location_index = 0
-        self.BGCOLOR = self.BLACK
-#Track objects
-        self.current_track_list = ["START1",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "END"]
 
-        self.current_track_surface = self.track.getThisTrack(self.current_track_list)
+        #Track objects todo move track objects to track class
+        self.track = Track()
+        self.track_location_index = 0
+        self.current_track_surface = self.track.getThisTrack(self.track.level_builder_track)
         self.marker_surface_width = 8*self.screen_resolution
         self.marker_surface_height = self.marker_surface_width
-        self.marker_surface = pygame.Surface((self.marker_surface_width, self.marker_surface_height))
+        self.marker_surface = pygame.Surface((self.marker_surface_width,
+                                              self.marker_surface_height))
         self.marker_surface.fill(self.DARKBLUE)
-#Menu objects
+
+        #Menu objects
+        self.BGCOLOR = self.BLACK
         self.options_surface_width = self.WINDOWWIDTH
         self.options_surface_height = 56*self.screen_resolution
-        self.options_surface = pygame.Surface((self.options_surface_width,self.options_surface_height))
+        self.options_surface = pygame.Surface((self.options_surface_width,
+                                               self.options_surface_height))
         self.options_surface.fill(self.BGCOLOR)
-        self.not_hurdle_options = ["START1", "START2", "START3"]
+        self.not_hurdle_options = ["START1",
+                                   "START2",
+                                   "START3"]
         self.hurdle_options = self.track.track_hurdles.keys()
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
@@ -78,12 +51,12 @@ class LevelBuilderScreen(Screen):
         self.hurdle_options_index += 1
 
     def move_position_left(self):
-        self.location_index += 16
-        self.hurdle_options_index =  self.hurdle_options.index(self.current_track_list[(-self.location_index/16)+9])
+        self.track_location_index += 16
+        self.hurdle_options_index = self.hurdle_options.index(self.track.level_builder_track[(-self.track_location_index/16)+9])
 
     def move_position_right(self):
-        self.location_index -= 16
-        self.hurdle_options_index =  self.hurdle_options.index(self.current_track_list[(-self.location_index/16)+9])
+        self.track_location_index -= 16
+        self.hurdle_options_index = self.hurdle_options.index(self.track.level_builder_track[(-self.track_location_index/16)+9])
 
     def place_holder_a(self):
         print "A Button Pressed"
@@ -138,36 +111,58 @@ class LevelBuilderScreen(Screen):
             if self.lastEventStates[7] == False:
                 self.place_holder_select()
         self.lastEventStates = events
-        # Track State Update
+
+        # loop hurdle option index if it tries to pass it's boundaries
         if self.hurdle_options_index < 0:
             self.hurdle_options_index = len(self.hurdle_options)-1
         elif self.hurdle_options_index == len(self.hurdle_options):
             self.hurdle_options_index = 0
 
-        self.current_track_list[(-self.location_index/16)+9] = self.hurdle_options[self.hurdle_options_index]
-        self.current_track_surface = Track.getThisTrack(self.track, self.current_track_list)
+        # Track State Update
+        self.track.level_builder_track[(-self.track_location_index/16)+9] = self.hurdle_options[self.hurdle_options_index]
+        self.current_track_surface = Track.getThisTrack(self.track, self.track.level_builder_track)
 
         ### Place Holder Background
 
         # Track Blit
         self.displaysurf.fill(self.LIGHTBLUE)
-        self.displaysurf.blit(self.current_track_surface, (self.location_index,self.WINDOWHEIGHT-self.options_surface_height-self.track.TRACK_HEIGHT))
-        self.displaysurf.blit(self.options_surface, (0,self.WINDOWHEIGHT-self.options_surface_height))
-        self.displaysurf.blit(self.marker_surface, (self.screen_resolution*64,self.WINDOWHEIGHT-self.options_surface_height-8*self.screen_resolution))
+        self.displaysurf.blit(self.current_track_surface,
+                              (self.track_location_index,
+                               self.WINDOWHEIGHT-self.options_surface_height-self.track.TRACK_HEIGHT))
+        self.displaysurf.blit(self.options_surface,
+                              (0,
+                               self.WINDOWHEIGHT-self.options_surface_height))
+        self.displaysurf.blit(self.marker_surface,
+                              (self.screen_resolution*64,
+                               self.WINDOWHEIGHT-self.options_surface_height-8*self.screen_resolution))
 
         # Options Blit
         for i in range(len(self.hurdle_options)):
                 if self.hurdle_options[i] == "BLANK":
-                    self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
-                    self.displaysurf.blit(self.fontsurface, ((8*self.screen_resolution),190*self.screen_resolution))
+                    self.fontsurface = (self.myfont.render(self.hurdle_options[i],
+                                                           1,
+                                                           self.WHITE))
+                    self.displaysurf.blit(self.fontsurface,
+                                          ((8*self.screen_resolution),
+                                           190*self.screen_resolution))
                 else:
-                    self.fontsurface = (self.myfont.render(self.hurdle_options[i], 1, self.WHITE))
-                    self.displaysurf.blit(self.fontsurface, ((i*8*self.screen_resolution+80),190*self.screen_resolution))
+                    self.fontsurface = (self.myfont.render(self.hurdle_options[i],
+                                                           1,
+                                                           self.WHITE))
+                    self.displaysurf.blit(self.fontsurface,
+                                          ((i*8*self.screen_resolution+80),
+                                           190*self.screen_resolution))
         # Cursor Blit
-        self.fontsurface = (self.myfont.render("^", 1, self.WHITE))
+        self.fontsurface = (self.myfont.render("^",
+                                               1,
+                                               self.WHITE))
 
         if self.hurdle_options_index == 0:
-            self.displaysurf.blit(self.fontsurface, (((self.hurdle_options_index*8+24)*self.screen_resolution),200*self.screen_resolution))
+            self.displaysurf.blit(self.fontsurface,
+                                  (((self.hurdle_options_index*8+24)*self.screen_resolution)
+                                   ,200*self.screen_resolution))
         else:
-            self.displaysurf.blit(self.fontsurface, (((self.hurdle_options_index*8+40)*self.screen_resolution),200*self.screen_resolution))
+            self.displaysurf.blit(self.fontsurface,
+                                  (((self.hurdle_options_index*8+40)*self.screen_resolution),
+                                   200*self.screen_resolution))
 #        self.displaysurf.blit(self.surface, (x,y))

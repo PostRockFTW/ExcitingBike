@@ -13,80 +13,58 @@ class GameScreen(Screen):
     def __init__(self):
         super(GameScreen,self).__init__()
 
-        self.track = Track()
+        # Set up instances for gamescreen objects
 
-        self.BGCOLOR = self.BLACK
-        self.blanksurface = pygame.Surface((self.WINDOWWIDTH,self.WINDOWHEIGHT))
-        self.blanksurface.fill(self.BGCOLOR)
-
-        self.temporary_track_list = self.track.testTrack()
-
-        self.start_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in ("START1",
-                                                                               "START2",
-                                                                               "START3")]
-        self.start_hurdle_width = self.start_hurdles[0].get_width()
-
-        self.track_surface = self.loadLevel(self.temporary_track_list)
+        #State Surface???
         self.background_surface =  pygame.image.load("assets/Excitebike_BackGround.png").convert()
 
+        #Track
+        self.track = Track()
+        #Todo move track stats and functions to track class
+        self.track_surface = self.track.getThisTrack(self.track.game_track)
+        self.current_track_x_position = 0
+        self.track_y_position = 72
+        self.temporary_track_list = self.track.game_track
+
+        #Biker
+        self.biker = Biker()
+         # todo move biker stats to biker class
+        self.friction       = 0.1
+        self.acceleration_a = .2
+        self.acceleration_b = 1
+        self.bikerSpeed    = 0
+        self.maxBikerSpeed = 4
+        self.min_lane_range   = 1
+        self.max_lane_range   = 4
+        self.lane_range  = (self.min_lane_range, self.max_lane_range)
+        self.current_lane = 2
+        self.targetLane = 2
+
+        #Heat Bar
         self.heatBarWidth       = 31.0
         self.heatBarHeight      = 8.0
         self.heatBarBorderWith  = 1
         self.heat               = 0
 
-        self.biker = Biker()
-
+        #Intro Animation
+        self.start_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in ("START1",
+                                                                               "START2",
+                                                                               "START3")]
+        self.start_hurdle_width = self.start_hurdles[0].get_width()
         self.resetGame()
-
-        self.friction       = 0.1
-        self.acceleration_a = .2
-        self.acceleration_b = 1
-
-        self.bikerSpeed    = 0
-        self.maxBikerSpeed = 4
-
-        self.currentOffset = 0
-
-        self.lane       = 2
-        self.targetLane = 2
-
-        self.minrange   = 1
-        self.maxrange   = 4
-        self.lanerange  = (self.minrange, self.maxrange)
-
-        #Event handling lists
-        self.eventStates = []
-        self.lastEventStates = []
-
-    def loadLevel(self, trackList):
-
-        self.track_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in trackList]
-        self.track_width = sum((surface.get_width() for surface in self.track_hurdles))
-        self.track_height = self.track_hurdles[0].get_height()
-        self.track_surface = pygame.Surface((self.track_width, self.track_height))
-
-        # For now, just blit the hurdles to the level once
-        xPos = self.start_hurdle_width
-        for surface in self.track_hurdles:
-            self.track_surface.blit(surface, (xPos, 0))
-            xPos += surface.get_width()
-
-        return self.track_surface
 
     def resetGame(self):
         self.started = False
         self.started_time = 0
 
     def update(self, events, states):
+        #Update Background gfx to wipe screen
 
         self.displaysurf.blit(self.background_surface, (0,0))
+        self.displaysurf.blit(self.track_surface, (self.current_track_x_position, 72))
+        self.displaysurf.blit(self.start_hurdles[-1], (self.current_track_x_position, 72))
 
-        #self.displaysurf.blit(self.blanksurface, (0, 0))
-
-        self.displaysurf.blit(self.track_surface, (self.currentOffset, 72))
-
-        self.displaysurf.blit(self.start_hurdles[-1], (self.currentOffset, 72))
-
+        #Game start animation logic todo move game start animation to separate class
         if not self.started:
             if self.started_time == 0:
                 self.started_time = pygame.time.get_ticks()
@@ -96,16 +74,15 @@ class GameScreen(Screen):
 
                 # TODO: make this agnostic as to the # of start hurdles
                 if 0 <= msPassed < 1000:
-                    self.displaysurf.blit(self.start_hurdles[0], (0, 0))
+                    self.displaysurf.blit(self.start_hurdles[0], (0, 72))
                 elif 1000 <= msPassed < 2000:
-                    self.displaysurf.blit(self.start_hurdles[1], (0, 0))
+                    self.displaysurf.blit(self.start_hurdles[1], (0, 72))
                 elif msPassed > 3000:
                     self.started = True
-
+        #Rest of game logic
         else: # Game is active
-            self.currentOffset -= self.bikerSpeed
-
-        self.bikerSpeed -= self.friction
+            self.current_track_x_position -= self.bikerSpeed
+            self.bikerSpeed -= self.friction
 
         # Handle inputs
 
@@ -155,45 +132,35 @@ class GameScreen(Screen):
         pass
         self.lastEventStates = events
 
-
-
         # Restrict to lanes between minrange and maxrange
-        self.targetLane = max(self.lanerange[0],
-                              min(self.lanerange[-1], self.targetLane))
+        self.targetLane = max(self.lane_range[0],
+                              min(self.lane_range[-1], self.targetLane))
 
         self.bikerSpeed = max(0,
                               min(self.bikerSpeed, self.maxBikerSpeed))
 
-        direction = -1 if self.lane > self.targetLane else 1
+        self.direction = -1 if self.current_lane > self.targetLane else 1
 
         # This executes for some reason??
         # if self.lane != self.targetLane:
 
-        if abs(self.lane - self.targetLane) > 0.01:
-            self.lane += direction * 0.2
+        if abs(self.current_lane - self.targetLane) > 0.01:
+            self.current_lane += self.direction * 0.2
 
-        # Update graphics
+        # Update Foreground Graphics
+        #Biker
         self.displaysurf.blit(self.biker.displaysurf,
                               (0,
-                               self.yPosForLane(self.lane)))
-
-
+                               self.yPosForLane(self.current_lane)))
+        #Heat Bar
         heatBarRect = pygame.Rect(144 - self.heatBarWidth,
                                   209 - self.heatBarHeight,
                                   self.heatBarWidth,
                                   self.heatBarHeight)
-        # Heat bar border
-        #pygame.draw.rect(self.displaysurf,
-         #                pygame.Color("red"),
-          #               heatBarRect,
-           #              self.heatBarBorderWith)
-
         heatBarRect.width *= self.heat / self.heatBarWidth
-        # Heat bar
         pygame.draw.rect(self.displaysurf,
                          pygame.Color("red"),
                          heatBarRect)
-
 
     def yPosForLane(self, lane):
         laneHeight = 12
