@@ -20,11 +20,6 @@ class GameScreen(Screen):
 
         #Track
         self.track = Track()
-        #Todo move track stats and functions to track class
-        self.track_surface = self.track.getThisTrack(self.track.game_track)
-        self.current_track_x_position = 0
-        self.track_y_position = 72
-        self.temporary_track_list = self.track.game_track
 
         #Biker
         self.biker_1 = Biker()
@@ -50,8 +45,12 @@ class GameScreen(Screen):
         #Update Background gfx to wipe screen
 
         self.displaysurf.blit(self.background_surface, (0,0))
-        self.displaysurf.blit(self.track_surface, (self.current_track_x_position, 72))
-        self.displaysurf.blit(self.start_hurdles[-1], (self.current_track_x_position, 72))
+        self.displaysurf.blit(self.track.track_sprite,
+                             (self.track.current_displaysurf_x_position,
+                              self.track.displaysurf_y_position))
+        self.displaysurf.blit(self.start_hurdles[-1],
+                             (self.track.current_displaysurf_x_position,
+                              self.track.displaysurf_y_position))
 
         #Game start animation logic todo move game start animation to separate class
         if not self.started:
@@ -63,14 +62,14 @@ class GameScreen(Screen):
 
                 # TODO: make this agnostic as to the # of start hurdles
                 if 0 <= msPassed < 1000:
-                    self.displaysurf.blit(self.start_hurdles[0], (0, 72))
+                    self.displaysurf.blit(self.start_hurdles[0], (0, self.track.displaysurf_y_position))
                 elif 1000 <= msPassed < 2000:
-                    self.displaysurf.blit(self.start_hurdles[1], (0, 72))
+                    self.displaysurf.blit(self.start_hurdles[1], (0, self.track.displaysurf_y_position))
                 elif msPassed > 3000:
                     self.started = True
         #Rest of game logic
         else: # Game is active
-            self.current_track_x_position -= self.biker_1.speed
+            self.track.current_displaysurf_x_position -= self.biker_1.speed
             self.biker_1.update_speed(self.biker_1.friction)
             self.biker_1.update_current_lane()
         # Handle inputs
@@ -113,7 +112,6 @@ class GameScreen(Screen):
         #if events[8]    == True:
             #self.place_holder_escape()
 
-        pass
         self.lastEventStates = events
 
         # Update Foreground Graphics

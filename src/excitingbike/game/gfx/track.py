@@ -3,7 +3,23 @@ from collections import OrderedDict
 
 class Track():
     def __init__(self):
-        self.track_sprite = None
+
+        self.level_builder_track = ["START1", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK",
+                                    "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK",
+                                    "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK",
+                                    "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "END"]
+
+        self.game_track =          ["BLANK", "BLANK", "BLANK", "A", "G", "BLANK", "BLANK", "B",
+                                    "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "D", "D", "BLANK",
+                                    "BLANK", "B", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "D",
+                                    "D", "BLANK", "BLANK", "B", "BLANK", "BLANK", "BLANK", "BLANK"]
+
+        self.current_displaysurf_x_position = 0
+        self.displaysurf_y_position = 72
+        self.sprite_map = None
+        self.TRACK_HEIGHT = 112
+        self.sprite_map_y = [16 + self.TRACK_HEIGHT*i for i in range(8)]
+        self.tint = 0
 
         self.track_hurdles = OrderedDict([
             ("START1", (  10,  64)),
@@ -588,110 +604,17 @@ class Track():
                         15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)),
             ])
 
-        self.track_hurdle_height_upper_lanes = OrderedDict([
-            ("START1", (  0,0,0,0,0,0,0,0)),
-            ("START2", (  74,  64)),
-            ("START3", ( 139,  64)),
-            ("BLANK" , ( 202,  32)),
-            ("A"     , ( 234,  32)),
-            ("B"     , ( 266,  48)),
-            ("C"     , ( 314,  80)),
-            ("D"     , ( 394,  80)),
-            ("E"     , ( 474,  48)),
-            ("F"     , ( 522,  48)),
-            ("G"     , ( 570,  48)),
-            ("H"     , ( 618,  16)),
-            ("I"     , ( 634,  16)),
-            ("J"     , ( 650,  16)),
-            ("K"     , ( 666,  32)),
-            ("L"     , ( 698,  32)),
-            ("M"     , ( 730,  16)),
-            ("N"     , ( 746,  16)),
-            ("O"     , ( 762, 208)),
-            ("P"     , ( 970, 208)),
-            ("Q"     , (1178,  96)),
-            ("R"     , (1274, 208)),
-            ("S"     , (1482, 224)),
-            ("END"   , (1706,  96)),
-            ])
+        self.track_sprite = self.getThisTrack(self.game_track)
 
-        self.TRACK_HEIGHT = 112
-
-        self.track_tints = [16 + self.TRACK_HEIGHT*i for i in range(8)]
-
-        self.tint = 0
-
-        self.level_builder_track = ["START1",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "BLANK",
-                                   "END"]
-        self.game_track = ["BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "A",
-                         "G",
-                         "BLANK",
-                         "BLANK",
-                         "B",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "D",
-                         "D",
-                         "BLANK",
-                         "BLANK",
-                         "B",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "BLANK",
-                         "D",
-                         "D",
-                         "BLANK",
-                         "BLANK",
-                         "B",
-                         "BLANK",
-                         "BLANK"]
     def getTrackSprite(self):
-        if self.track_sprite is None:
-           self.track_sprite = pygame.image.load("assets/tracks.png").convert()
-        return self.track_sprite
+        if self.sprite_map is None:
+           self.sprite_map = pygame.image.load("assets/tracks.png").convert()
+        return self.sprite_map
 
     def getTrackHurdle(self,hurdleLetter):
         return self.getTrackSprite().subsurface((
             self.track_hurdles[hurdleLetter][0],
-            self.track_tints[self.tint],
+            self.sprite_map_y[self.tint],
             self.track_hurdles[hurdleLetter][1],
             self.TRACK_HEIGHT
         ))
