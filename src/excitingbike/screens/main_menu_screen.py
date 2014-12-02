@@ -18,10 +18,10 @@ class MainMenuScreen(MenuScreen):
 
         # set up Logo
 
-        self.excitbike_logo = pygame.image.load("assets/excitebike_logo.png").convert()
+        self.excitebike_logo = pygame.image.load("assets/excitebike_logo.png").convert()
 
         ### (width, height)
-        self.EXCITBIKE_LOGO_SIZE = self.excitbike_logo.get_size()
+        self.EXCITBIKE_LOGO_SIZE = self.excitebike_logo.get_size()
 
         self.logo_location = [(self.WINDOWWIDTH-self.EXCITBIKE_LOGO_SIZE[0])/2,(self.WINDOWHEIGHT-self.EXCITBIKE_LOGO_SIZE[1])/4]
 
@@ -51,7 +51,7 @@ class MainMenuScreen(MenuScreen):
             ### Background and logo
 
             self.displaysurf.fill(self.BGCOLOR)
-            self.displaysurf.blit(self.excitbike_logo, self.logo_location)
+            self.displaysurf.blit(self.excitebike_logo, self.logo_location)
 
             ### Menu Options
 
