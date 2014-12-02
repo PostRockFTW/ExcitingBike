@@ -3,52 +3,70 @@ import pygame
 class Biker():
     # Initializes with a Bike controller
     def __init__(self):
-        self.bikerWidth = 26
-        self.bikerHeight = 26
-        self.spriteMapX = 10 #0-19
-        self.spriteMapY = 0  #0-13 not actually this simple
-        self.biker_sprite = pygame.image.load("assets/biker-sheet.gif").convert_alpha()
-                                                            #(min x location, min y location, x width, y height)
-        self.displaysurf = self.biker_sprite.subsurface(((self.spriteMapX*self.bikerWidth),
-                                                         3+(self.spriteMapY*self.bikerHeight),
-                                                         self.bikerWidth,
-                                                         self.bikerHeight))
+
+        ###Biker gfx
+        self.sprite_width = 26
+        self.sprite_height = 26
+        self.sprite_map_x = 10 #0-19
+        self.sprite_map_y = 0  #0-13 not actually this simple
+        self.sprite_map = pygame.image.load("assets/biker-sheet.gif").convert_alpha()
+                                                #(min x location, min y location, x width, y height)
+        self.sprite = self.sprite_map.subsurface(((self.sprite_map_x*self.sprite_width),
+                                                         3+(self.sprite_map_y*self.sprite_height),
+                                                         self.sprite_width,
+                                                         self.sprite_height))
+        ###Biker physics
+        #Speed
+        self.friction       = -0.1
+        self.acceleration_a = .2
+        self.acceleration_b = 1
+        self.speed    = 0
+        self.max_speed = 4
+        self.lane_change_speed = .2
+
+        #Location
+        self.min_lane_range   = 1
+        self.max_lane_range   = 4
+        self.lane_range  = (self.min_lane_range, self.max_lane_range)
+        self.current_lane = 2
+        self.targetLane = 2
+
+        #Angle
+
+        #State
+
+
         pass
 
-    def update(self):
+    def update_gfx(self):
                                                             #(min x location, min y location, x width, y height)
-        self.displaysurf = self.biker_sprite.subsurface(((self.spriteMapX*self.bikerWidth),
-                                                         3+(self.spriteMapY*self.bikerHeight),
-                                                         self.bikerWidth,
-                                                         self.bikerHeight))
-        pass
-
-    # The following methods are used by Controllers
-
-    # Simulates an up button presson
-    def up(self):
-        print("moving up")
-
-    # Moves down one track, if possible.
-    def down(self):
-        print("moving down")
+        self.sprite = self.sprite_map.subsurface(((self.sprite_map_x*self.sprite_width),
+                                                         3+(self.sprite_map_y*self.sprite_height),
+                                                         self.sprite_width,
+                                                         self.sprite_height))
 
     # When in air - leans back if possible
-    def left(self):
-        print("moving left")
-        if self.spriteMapX < 15:
-            self.spriteMapX += 1
-            self.update()
-    # When in air - leans forward if possible
-    def right(self):
-        print("moving right")
-        if self.spriteMapX > 10:
-            self.spriteMapX -= 1
-            self.update()
-    # Accelerates biker if not at max speed
-    def accelerate(self):
-        print("accelerating")
+    def rotate_sprite_counter_clockwise(self):
+        if self.sprite_map_x < 15:
+            self.sprite_map_x += 1
+            self.update_gfx()
 
-    # Brakes the bike if the bike is moving
-    def brake(self):
-        print("braking")
+    # When in air - leans forward if possible
+    def rotate_sprite_clockwise(self):
+        if self.sprite_map_x > 10:
+            self.sprite_map_x -= 1
+            self.update_gfx()
+
+    def update_speed(self, acceleration):
+        self.speed += acceleration
+        self.speed = max(0,
+                         min(self.speed, self.max_speed))
+
+    def update_target_lane(self, numeric_difference):
+        self.targetLane += numeric_difference
+        self.targetLane = max(self.min_lane_range,
+                              min(self.max_lane_range, self.targetLane))
+    def update_current_lane(self):
+        self.direction = -1 if self.current_lane > self.targetLane else 1
+        if abs(self.current_lane - self.targetLane) > 0.01:
+            self.current_lane += self.direction * self.lane_change_speed

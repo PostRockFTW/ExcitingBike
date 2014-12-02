@@ -27,18 +27,7 @@ class GameScreen(Screen):
         self.temporary_track_list = self.track.game_track
 
         #Biker
-        self.biker = Biker()
-         # todo move biker stats to biker class
-        self.friction       = 0.1
-        self.acceleration_a = .2
-        self.acceleration_b = 1
-        self.bikerSpeed    = 0
-        self.maxBikerSpeed = 4
-        self.min_lane_range   = 1
-        self.max_lane_range   = 4
-        self.lane_range  = (self.min_lane_range, self.max_lane_range)
-        self.current_lane = 2
-        self.targetLane = 2
+        self.biker_1 = Biker()
 
         #Heat Bar
         self.heatBarWidth       = 31.0
@@ -81,9 +70,9 @@ class GameScreen(Screen):
                     self.started = True
         #Rest of game logic
         else: # Game is active
-            self.current_track_x_position -= self.bikerSpeed
-            self.bikerSpeed -= self.friction
-
+            self.current_track_x_position -= self.biker_1.speed
+            self.biker_1.update_speed(self.biker_1.friction)
+            self.biker_1.update_current_lane()
         # Handle inputs
 
         # FROM LOCALS
@@ -96,28 +85,23 @@ class GameScreen(Screen):
             #KEY_START    = 6
             #KEY_SELECT   = 7
             #KEY_ESCAPE   = 8
-        
+
         Input.keys.update_keys(events)
-        
+
         if Input.keys.down(0):
             if self.lastEventStates[0] == False:
-                self.targetLane = self.targetLane - 1
-                pass
+                self.biker_1.update_target_lane(-1)
         if Input.keys.down(1):
             if self.lastEventStates[1] == False:
-                self.targetLane = self.targetLane + 1
-                pass
-        if Input.keys.down(4):
-            # 1.5 seconds to get to full speed
-            self.bikerSpeed += self.acceleration_a
-            pass
-        if Input.keys.down(5):
-            self.bikerSpeed += self.acceleration_b
-            pass
+                self.biker_1.update_target_lane(1)
         if Input.keys.down(2):
-            self.biker.left()
+            self.biker_1.rotate_sprite_counter_clockwise()
         if Input.keys.down(3):
-            self.biker.right()
+            self.biker_1.rotate_sprite_clockwise()
+        if Input.keys.down(4):
+            self.biker_1.update_speed(self.biker_1.acceleration_a)
+        if Input.keys.down(5):
+            self.biker_1.update_speed(self.biker_1.acceleration_b)
         if Input.keys.down(6):
             if self.heat > 0:
                 self.heat -= 1
@@ -132,26 +116,11 @@ class GameScreen(Screen):
         pass
         self.lastEventStates = events
 
-        # Restrict to lanes between minrange and maxrange
-        self.targetLane = max(self.lane_range[0],
-                              min(self.lane_range[-1], self.targetLane))
-
-        self.bikerSpeed = max(0,
-                              min(self.bikerSpeed, self.maxBikerSpeed))
-
-        self.direction = -1 if self.current_lane > self.targetLane else 1
-
-        # This executes for some reason??
-        # if self.lane != self.targetLane:
-
-        if abs(self.current_lane - self.targetLane) > 0.01:
-            self.current_lane += self.direction * 0.2
-
         # Update Foreground Graphics
         #Biker
-        self.displaysurf.blit(self.biker.displaysurf,
+        self.displaysurf.blit(self.biker_1.sprite,
                               (0,
-                               self.yPosForLane(self.current_lane)))
+                               self.yPosForLane(self.biker_1.current_lane)))
         #Heat Bar
         heatBarRect = pygame.Rect(144 - self.heatBarWidth,
                                   209 - self.heatBarHeight,

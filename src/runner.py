@@ -74,7 +74,7 @@ class Runner(object):
                                    self.states)
 
             # Post Combat Phase
-            self.scaled_state_surface = self.states[-1].displaysurf #scale to self.screen_resolution
+            self.scaled_state_surface = self.states[-1].displaysurf #todo scale to self.screen_resolution
             self.main_display.blit(self.scaled_state_surface,
                                    (0,
                                     0))
