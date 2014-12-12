@@ -16,6 +16,10 @@ class Biker():
                                                          self.sprite_width,
                                                          self.sprite_height))
         ###Biker physics
+
+        #State
+        self.state = "on_track" #vs. on_grass, on_mud, in_air, or crashing
+
         #Speed
         self.friction       = -0.1
         self.acceleration_a = .2
@@ -33,7 +37,8 @@ class Biker():
 
         #Angle
 
-        #State
+        #Heat
+        self.heat = 0
 
 
         pass

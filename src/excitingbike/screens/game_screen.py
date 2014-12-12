@@ -3,6 +3,7 @@ import pygame
 from ..game.gfx import track as Track
 from ..game.gfx.biker import Biker
 from ..game.gfx.track import Track
+from ..game.gfx.heat_bar import Heat_bar
 from screen import Screen
 from ..locals import *
 from ..input.input import Input
@@ -28,10 +29,7 @@ class GameScreen(Screen):
         self.biker_1 = Biker()
 
         #Heat Bar
-        self.heatBarWidth       = 31.0
-        self.heatBarHeight      = 8.0
-        self.heatBarBorderWith  = 1
-        self.heat               = 0
+        self.heat_bar = Heat_bar()
 
         #Intro Animation
         self.start_hurdles = [self.track.getTrackHurdle(hurdle) for hurdle in ("START1",
@@ -86,12 +84,12 @@ class GameScreen(Screen):
             if Input.keys.down(5):
                 self.biker_1.update_speed(self.biker_1.acceleration_b)
             if Input.keys.down(6):
-                if self.heat > 0:
-                    self.heat -= 1
+                if self.biker_1.heat > 0:
+                    self.biker_1.heat -= 1
                     pass
             if Input.keys.down(7):
-                if self.heat < self.heatBarWidth:
-                    self.heat += 1
+                if self.biker_1.heat < self.heat_bar.heatBarWidth:
+                    self.biker_1.heat += 1
                     pass
             #if events[8]    == True:
                 #self.place_holder_escape()
@@ -118,6 +116,7 @@ class GameScreen(Screen):
         self.track.current_displaysurf_x_position -= self.biker_1.speed
         self.biker_1.update_speed(self.biker_1.friction)
         self.biker_1.update_current_lane()
+        self.heat_bar.update_size(self.biker_1.heat)
 
     def blit_forground(self):
         #Biker
@@ -125,14 +124,9 @@ class GameScreen(Screen):
                               (0,
                                self.yPosForLane(self.biker_1.current_lane)))
         #Heat Bar
-        heatBarRect = pygame.Rect(144 - self.heatBarWidth,
-                                  209 - self.heatBarHeight,
-                                  self.heatBarWidth,
-                                  self.heatBarHeight)
-        heatBarRect.width *= self.heat / self.heatBarWidth
         pygame.draw.rect(self.displaysurf,
                          pygame.Color("red"),
-                         heatBarRect)
+                         self.heat_bar.heatBarRect)
 
     def update(self, events, states):
         #Update Background gfx to wipe screen
