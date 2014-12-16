@@ -85,4 +85,4 @@ class MenuScreen(Screen):
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.blink_color))
                 else:
                     self.fontsurface = (self.myfont.render(self.menu_options[i], 1, self.WHITE))
-                self.displaysurf.blit(self.fontsurface, (150, (275+i*25)))
+                self.displaysurf.blit(self.fontsurface, (75, (138+i*12)))

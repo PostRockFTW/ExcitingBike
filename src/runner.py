@@ -15,7 +15,7 @@ class Runner(object):
 
         self.clock = pygame.time.Clock()
         self.screen = initial_screen
-        self.screen_resolution = 2
+        self.screen_resolution = 3
         self.WINDOWWIDTH = 256*self.screen_resolution
         self.WINDOWHEIGHT = 224*self.screen_resolution
         self.main_display = pygame.display.set_mode((self.WINDOWWIDTH,
@@ -74,7 +74,8 @@ class Runner(object):
                                    self.states)
 
             # Post Combat Phase
-            self.scaled_state_surface = self.states[-1].displaysurf #todo scale to self.screen_resolution
+            self.scaled_state_surface =  pygame.surface.Surface((self.WINDOWWIDTH, self.WINDOWHEIGHT))
+            pygame.transform.scale(self.states[-1].displaysurf, (self.WINDOWWIDTH, self.WINDOWHEIGHT),self.scaled_state_surface)
             self.main_display.blit(self.scaled_state_surface,
                                    (0,
                                     0))

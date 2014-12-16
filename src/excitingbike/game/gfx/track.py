@@ -21,7 +21,7 @@ class Track():
         self.sprite_map_y = [16 + self.TRACK_HEIGHT*i for i in range(8)]
         self.tint = 0
 
-        self.track_hurdles = OrderedDict([
+        self.hurdle_x_location_x_length = OrderedDict([
             ("START1", (  10,  64)),
             ("START2", (  74,  64)),
             ("START3", ( 139,  64)),
@@ -613,9 +613,9 @@ class Track():
 
     def getTrackHurdle(self,hurdleLetter):
         return self.getTrackSprite().subsurface((
-            self.track_hurdles[hurdleLetter][0],
+            self.hurdle_x_location_x_length[hurdleLetter][0],
             self.sprite_map_y[self.tint],
-            self.track_hurdles[hurdleLetter][1],
+            self.hurdle_x_location_x_length[hurdleLetter][1],
             self.TRACK_HEIGHT
         ))
 

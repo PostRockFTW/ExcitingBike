@@ -27,7 +27,7 @@ class LevelBuilderScreen(Screen):
         self.not_hurdle_options = ["START1",
                                    "START2",
                                    "START3"]
-        self.hurdle_options = self.track.track_hurdles.keys()
+        self.hurdle_options = self.track.hurdle_x_location_x_length.keys()
         for not_hurdle_option in self.not_hurdle_options:
             self.hurdle_options.remove(not_hurdle_option)
         self.hurdle_options_index = 0
@@ -119,7 +119,7 @@ class LevelBuilderScreen(Screen):
             self.hurdle_options_index = 0
 
         # Track State Update
-        self.track.level_builder_track[(-self.track_location_index/16)+9] = self.hurdle_options[self.hurdle_options_index]
+        self.track.level_builder_track[(-self.track_location_index/16)+2] = self.hurdle_options[self.hurdle_options_index]
         self.current_track_surface = Track.getThisTrack(self.track, self.track.level_builder_track)
 
         ### Place Holder Background
@@ -150,7 +150,7 @@ class LevelBuilderScreen(Screen):
                                                            1,
                                                            self.WHITE))
                     self.displaysurf.blit(self.fontsurface,
-                                          ((i*8*self.screen_resolution+80),
+                                          ((i*8*self.screen_resolution+40),
                                            190*self.screen_resolution))
         # Cursor Blit
         self.fontsurface = (self.myfont.render("^",

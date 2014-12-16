@@ -10,3 +10,4 @@ class OptionMenuScreen(MenuScreen):
         
 def update(self,events,states):
     super(OptionMenuScreen,self).update_gfx(events,states)
+    pass

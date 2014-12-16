@@ -23,10 +23,14 @@ class MainMenuScreen(MenuScreen):
         ### (width, height)
         self.EXCITBIKE_LOGO_SIZE = self.excitebike_logo.get_size()
 
-        self.logo_location = [(self.WINDOWWIDTH-self.EXCITBIKE_LOGO_SIZE[0])/2,(self.WINDOWHEIGHT-self.EXCITBIKE_LOGO_SIZE[1])/4]
+        self.scaled_surface =  pygame.surface.Surface((208, 81))
+        pygame.transform.scale(self.excitebike_logo, (208, 81),self.scaled_surface)
+
+
+        self.logo_location = [(self.WINDOWWIDTH-self.EXCITBIKE_LOGO_SIZE[0]/2)/2,(self.WINDOWHEIGHT-self.EXCITBIKE_LOGO_SIZE[1]/2)/4]
 
         # Menu logic variables
-        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 15)
+        self.myfont = pygame.font.Font("assets/Nintendo-NES-Font.ttf", 8)
         self.set_menu_options(("SINGLE PLAYER", "MULTI PLAYER", "LEVEL BUILDER", "OPTIONS"))
 
     def update(self,events,states):
@@ -50,8 +54,8 @@ class MainMenuScreen(MenuScreen):
 
             ### Background and logo
 
-            self.displaysurf.fill(self.BGCOLOR)
-            self.displaysurf.blit(self.excitebike_logo, self.logo_location)
+            #self.displaysurf.fill(self.BGCOLOR)
+            self.displaysurf.blit(self.scaled_surface, self.logo_location)
 
             ### Menu Options
 
