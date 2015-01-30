@@ -29,12 +29,12 @@ class Biker():
         self.lane_change_speed = .2
 
         #Location
-        self.min_lane_range   = 1
-        self.max_lane_range   = 4
-        self.lane_range  = (self.min_lane_range, self.max_lane_range)
-        self.current_lane = 2
-        self.targetLane = 2
-
+        self.min_lane_range= 1
+        self.max_lane_range= 4
+        self.lane_range    = (self.min_lane_range, self.max_lane_range)
+        self.current_lane  = 2
+        self.targetLane    = 2
+        self.track_x       = 0
         #Angle
 
         #Heat

@@ -13,7 +13,6 @@ class Track():
                                     "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "D", "D", "BLANK",
                                     "BLANK", "B", "BLANK", "BLANK", "BLANK", "BLANK", "BLANK", "D",
                                     "D", "BLANK", "BLANK", "B", "BLANK", "BLANK", "BLANK", "BLANK"]
-
         self.current_displaysurf_x_position = 0
         self.displaysurf_y_position = 72
         self.sprite_map = None
@@ -605,6 +604,9 @@ class Track():
             ])
 
         self.track_sprite = self.getThisTrack(self.game_track)
+        self.game_track_y_array = map(lambda y: self.track_hurdle_height_lane_1[y], self.game_track)
+        self.game_track_y_array = sum(self.game_track_y_array,())
+        pass
 
     def getTrackSprite(self):
         if self.sprite_map is None:

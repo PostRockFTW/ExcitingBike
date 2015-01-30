@@ -114,6 +114,7 @@ class GameScreen(Screen):
 
     def running(self,events):
         self.track.current_displaysurf_x_position -= self.biker_1.speed
+        self.biker_1.track_x += self.biker_1.speed
         self.biker_1.update_speed(self.biker_1.friction)
         self.biker_1.update_current_lane()
         self.heat_bar.update_size(self.biker_1.heat)
@@ -136,12 +137,10 @@ class GameScreen(Screen):
             self.starting()
         elif self.game_state == "running":
             self.running(events)
-        elif self.game_state == "running":
-            self.running(events)
         self.blit_forground()
 
     def yPosForLane(self, lane):
         laneHeight = 12
-        verticalOffset = 90
-        return (lane * laneHeight) + verticalOffset
+        screen_offset = 90
+        return (lane * laneHeight) + screen_offset - self.track.game_track_y_array[int(self.biker_1.track_x)]
 
